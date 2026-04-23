@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rede STRING MB</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <button id="go-back" class="back-button" type="button">Voltar para a página anterior</button>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">STRING + Cytoscape.js</p>
+        <h1>Rede interativa do tumor MB</h1>
+        <p class="lead">
+          Visualização integrada dos arquivos <code>stringMB*</code> encontrados no projeto. A rede destaca hubs,
+          permite filtrar por confiança da interação e mostra anotações detalhadas ao selecionar cada proteína.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button id="zoom-in" type="button">Zoom +</button>
+        <button id="zoom-out" type="button">Zoom -</button>
+        <button id="fit-network" type="button">Ajustar à tela</button>
+        <button id="reset-view" type="button">Resetar visualização</button>
+        <button id="run-layout" type="button">Reorganizar rede</button>
+        <button id="export-image" type="button">Exportar imagem</button>
+      </div>
+    </section>
+
+    <section class="dashboard">
+      <aside class="sidebar">
+        <section class="panel controls-panel" aria-labelledby="controls-title">
+          <h2 id="controls-title">Controles</h2>
+          <label class="control-field" for="score-filter">
+            <span>Score mínimo da interação</span>
+            <input id="score-filter" type="range" min="0" max="1" step="0.01" value="0">
+          </label>
+          <div class="score-readout">
+            <strong id="score-value">0.00</strong>
+            <span id="score-hint">Mostrando todas as interações disponíveis.</span>
+          </div>
+          <p class="hint">
+            Arraste os nós, use a roda do mouse para zoom e clique em uma proteína para ver os detalhes.
+          </p>
+          <div class="stats" id="network-stats"></div>
+        </section>
+
+        <section class="panel legend-panel" aria-labelledby="legend-title">
+          <h2 id="legend-title">Categorias</h2>
+          <div class="legend" id="legend"></div>
+        </section>
+
+        <section class="panel details-panel" aria-labelledby="details-title">
+          <h2 id="details-title">Detalhes do nó</h2>
+          <div id="node-details" class="node-details">
+            <p>Selecione um nó para ver descrição, aliases, grau de conectividade e evidências das interações.</p>
+          </div>
+        </section>
+      </aside>
+
+      <section class="panel network-panel">
+        <div class="network-header">
+          <div>
+            <h2>Rede MB</h2>
+            <p id="dataset-summary">Carregando arquivos <code>stringMB*</code>...</p>
+          </div>
+          <div class="status-chip" id="load-status">Inicializando</div>
+        </div>
+        <div id="cy" class="network-canvas" aria-label="Rede de interações do MB"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="../node_modules/cytoscape/dist/cytoscape.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

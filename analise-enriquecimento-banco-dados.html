@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análise e Enriquecimento - Banco de Dados</title>
+  <style>
+    :root {
+      --ink: #182337;
+      --ink-soft: #4a5b70;
+      --white: #fffdfd;
+      --line: rgba(24, 35, 55, 0.12);
+      --shadow: rgba(24, 35, 55, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 38%), rgba(191, 233, 255, 0.42), transparent 22rem),
+        linear-gradient(135deg, rgba(255, 209, 223, 0.32), transparent 34%),
+        var(--white);
+    }
+
+    .page {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 34px 22px 64px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 22px;
+      color: var(--ink-soft);
+      font-size: 0.94rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .back-link:hover,
+    .back-link:focus-visible {
+      color: var(--ink);
+      outline: none;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1;
+    }
+
+    .subtitle {
+      margin: 14px 0 0;
+      color: var(--ink-soft);
+      font-size: 1rem;
+      line-height: 1.55;
+      max-width: 780px;
+    }
+
+    .section-card,
+    .contrast-section {
+      margin-top: 26px;
+      padding: 18px;
+      border: 1px solid rgba(24, 35, 55, 0.12);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 14px 28px var(--shadow);
+    }
+
+    .section-card h2,
+    .contrast-section h2 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .single-figure {
+      display: grid;
+      gap: 10px;
+    }
+
+    .figure-card {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(24, 35, 55, 0.1);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      min-width: 0;
+    }
+
+    .figure-card h3 {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 850;
+      overflow-wrap: anywhere;
+    }
+
+    .figure-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      background: white;
+    }
+
+    .figure-image.zoomable {
+      cursor: zoom-in;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .figure-image.zoomable:hover,
+    .figure-image.zoomable:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(24, 35, 55, 0.18);
+      outline: 3px solid rgba(91, 189, 233, 0.42);
+      outline-offset: 3px;
+    }
+
+    .zoom-overlay {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(24, 35, 55, 0.82);
+      z-index: 999;
+    }
+
+    .zoom-overlay[hidden] {
+      display: none;
+    }
+
+    .zoom-dialog {
+      position: relative;
+      max-width: min(1180px, 96vw);
+      max-height: 92vh;
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    }
+
+    .zoom-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(24, 35, 55, 0.1);
+      color: var(--ink);
+      font-size: 1.1rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .zoom-close:hover,
+    .zoom-close:focus-visible {
+      background: rgba(24, 35, 55, 0.18);
+      outline: none;
+    }
+
+    .zoom-image {
+      display: block;
+      max-width: min(1120px, 88vw);
+      max-height: calc(92vh - 32px);
+      width: auto;
+      height: auto;
+      margin-top: 18px;
+      border-radius: 10px;
+      background: white;
+    }
+
+    @media (max-width: 840px) {
+      .figure-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <a class="back-link" href="dados-banco-dados.html">← Voltar</a>
+    <h1>Análise e Enriquecimento</h1>
+    <p class="subtitle">Heatmap global e todos os dotplots encontrados na pasta <code>analiseeenriquecimento</code> e em suas subpastas.</p>
+
+    <section class="section-card" aria-labelledby="heatmap-title">
+      <h2 id="heatmap-title">Heatmap</h2>
+      <div class="single-figure">
+        <figure class="figure-card">
+          <h3>heatmap_top_proteinas_ANOVA_global</h3>
+          <img class="figure-image zoomable" src="analiseeenriquecimento/heatmap_top_proteinas_ANOVA_global.png" alt="Heatmap top proteínas ANOVA global" tabindex="0">
+        </figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="atrt-epn-title">
+      <h2 id="atrt-epn-title">ATRT vs EPN</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_EPN/ATRT_vs_EPN_DOWN_Hallmark_dotplot.png" alt="ATRT vs EPN DOWN Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_EPN/ATRT_vs_EPN_DOWN_KEGG_dotplot.png" alt="ATRT vs EPN DOWN KEGG dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_EPN/ATRT_vs_EPN_UP_Hallmark_dotplot.png" alt="ATRT vs EPN UP Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_EPN/ATRT_vs_EPN_UP_KEGG_dotplot.png" alt="ATRT vs EPN UP KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="atrt-hgg-title">
+      <h2 id="atrt-hgg-title">ATRT vs HGG</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_HGG/ATRT_vs_HGG_DOWN_Hallmark_dotplot.png" alt="ATRT vs HGG DOWN Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_HGG/ATRT_vs_HGG_DOWN_KEGG_dotplot.png" alt="ATRT vs HGG DOWN KEGG dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_HGG/ATRT_vs_HGG_UP_Hallmark_dotplot.png" alt="ATRT vs HGG UP Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_HGG/ATRT_vs_HGG_UP_KEGG_dotplot.png" alt="ATRT vs HGG UP KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="atrt-lgg-title">
+      <h2 id="atrt-lgg-title">ATRT vs LGG</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_LGG/ATRT_vs_LGG_DOWN_Hallmark_dotplot.png" alt="ATRT vs LGG DOWN Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_LGG/ATRT_vs_LGG_DOWN_KEGG_dotplot.png" alt="ATRT vs LGG DOWN KEGG dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_LGG/ATRT_vs_LGG_UP_Hallmark_dotplot.png" alt="ATRT vs LGG UP Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_LGG/ATRT_vs_LGG_UP_KEGG_dotplot.png" alt="ATRT vs LGG UP KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="atrt-mb-title">
+      <h2 id="atrt-mb-title">ATRT vs MB</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_MB/ATRT_vs_MB_DOWN_Hallmark_dotplot.png" alt="ATRT vs MB DOWN Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_MB/ATRT_vs_MB_DOWN_KEGG_dotplot.png" alt="ATRT vs MB DOWN KEGG dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/ATRT_vs_MB/ATRT_vs_MB_UP_KEGG_dotplot.png" alt="ATRT vs MB UP KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="epn-hgg-title">
+      <h2 id="epn-hgg-title">EPN vs HGG</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/EPN_vs_HGG/EPN_vs_HGG_DOWN_KEGG_dotplot.png" alt="EPN vs HGG DOWN KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="epn-lgg-title">
+      <h2 id="epn-lgg-title">EPN vs LGG</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/EPN_vs_LGG/EPN_vs_LGG_DOWN_Hallmark_dotplot.png" alt="EPN vs LGG DOWN Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/EPN_vs_LGG/EPN_vs_LGG_DOWN_KEGG_dotplot.png" alt="EPN vs LGG DOWN KEGG dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/EPN_vs_LGG/EPN_vs_LGG_UP_Hallmark_dotplot.png" alt="EPN vs LGG UP Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/EPN_vs_LGG/EPN_vs_LGG_UP_KEGG_dotplot.png" alt="EPN vs LGG UP KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="epn-mb-title">
+      <h2 id="epn-mb-title">EPN vs MB</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/EPN_vs_MB/EPN_vs_MB_DOWN_Hallmark_dotplot.png" alt="EPN vs MB DOWN Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/EPN_vs_MB/EPN_vs_MB_DOWN_KEGG_dotplot.png" alt="EPN vs MB DOWN KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="hgg-lgg-title">
+      <h2 id="hgg-lgg-title">HGG vs LGG</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>UP Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/HGG_vs_LGG/HGG_vs_LGG_UP_Hallmark_dotplot.png" alt="HGG vs LGG UP Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/HGG_vs_LGG/HGG_vs_LGG_UP_KEGG_dotplot.png" alt="HGG vs LGG UP KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="hgg-mb-title">
+      <h2 id="hgg-mb-title">HGG vs MB</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/HGG_vs_MB/HGG_vs_MB_DOWN_Hallmark_dotplot.png" alt="HGG vs MB DOWN Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/HGG_vs_MB/HGG_vs_MB_DOWN_KEGG_dotplot.png" alt="HGG vs MB DOWN KEGG dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/HGG_vs_MB/HGG_vs_MB_UP_Hallmark_dotplot.png" alt="HGG vs MB UP Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/HGG_vs_MB/HGG_vs_MB_UP_KEGG_dotplot.png" alt="HGG vs MB UP KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+
+    <section class="contrast-section" aria-labelledby="lgg-mb-title">
+      <h2 id="lgg-mb-title">LGG vs MB</h2>
+      <div class="figure-grid">
+        <figure class="figure-card"><h3>DOWN Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/LGG_vs_MB/LGG_vs_MB_DOWN_Hallmark_dotplot.png" alt="LGG vs MB DOWN Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>DOWN KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/LGG_vs_MB/LGG_vs_MB_DOWN_KEGG_dotplot.png" alt="LGG vs MB DOWN KEGG dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP Hallmark dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/LGG_vs_MB/LGG_vs_MB_UP_Hallmark_dotplot.png" alt="LGG vs MB UP Hallmark dotplot" tabindex="0"></figure>
+        <figure class="figure-card"><h3>UP KEGG dotplot</h3><img class="figure-image zoomable" src="analiseeenriquecimento/LGG_vs_MB/LGG_vs_MB_UP_KEGG_dotplot.png" alt="LGG vs MB UP KEGG dotplot" tabindex="0"></figure>
+      </div>
+    </section>
+  </main>
+
+  <div class="zoom-overlay" id="zoom-overlay" hidden>
+    <div class="zoom-dialog" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+      <button class="zoom-close" id="zoom-close" type="button" aria-label="Fechar imagem ampliada">×</button>
+      <img class="zoom-image" id="zoom-image" alt="">
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const zoomOverlay = document.getElementById("zoom-overlay");
+    const zoomImage = document.getElementById("zoom-image");
+    const zoomClose = document.getElementById("zoom-close");
+
+    window.addEventListener("pointermove", (event) => {
+      root.style.setProperty("--mouse-x", `${event.clientX}px`);
+      root.style.setProperty("--mouse-y", `${event.clientY}px`);
+    });
+
+    const openZoom = (image) => {
+      zoomImage.src = image.src;
+      zoomImage.alt = image.alt;
+      zoomOverlay.hidden = false;
+    };
+
+    const closeZoom = () => {
+      zoomOverlay.hidden = true;
+      zoomImage.src = "";
+      zoomImage.alt = "";
+    };
+
+    document.querySelectorAll(".figure-image.zoomable").forEach((image) => {
+      image.addEventListener("click", () => openZoom(image));
+      image.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openZoom(image);
+        }
+      });
+    });
+
+    zoomOverlay.addEventListener("click", (event) => {
+      if (event.target === zoomOverlay) {
+        closeZoom();
+      }
+    });
+
+    zoomClose.addEventListener("click", closeZoom);
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !zoomOverlay.hidden) {
+        closeZoom();
+      }
+    });
+  </script>
+</body>
+</html>

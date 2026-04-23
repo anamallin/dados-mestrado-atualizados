@@ -1,0 +1,2 @@
+category,subcategory,ID,Description,GeneRatio,BgRatio,RichFactor,FoldEnrichment,zScore,pvalue,p.adjust,qvalue,geneID,Count
+Cellular Processes,Cell motility,hsa04814,Motor proteins,5/29,194/9376,0.02577319587628866,8.33274084607181,5.748401221185134,2.855262027648001e-4,0.03169340850689281,0.028552620276480013,83544/79659/51626/1767/1770,5

@@ -1,0 +1,3 @@
+"category","subcategory","ID","Description","GeneRatio","BgRatio","RichFactor","FoldEnrichment","zScore","pvalue","p.adjust","qvalue","geneID","Count"
+"Genetic Information Processing","Translation","hsa03008","Ribosome biogenesis in eukaryotes","10/120","46/3535",0.217391304347826,6.40398550724638,6.91466506349419,2.02500452596577e-06,0.000334125746784351,0.000326132307866065,"84135/5822/65083/23160/10813/10885/84128/55127/55226/28987",10
+"Genetic Information Processing","Folding, sorting and degradation","hsa03050","Proteasome","8/120","41/3535",0.195121951219512,5.7479674796748,5.73147965731734,5.21196819214788e-05,0.004299873758522,0.00419700596525592,"5694/5693/5687/5685/5682/5684/5689/5686",8

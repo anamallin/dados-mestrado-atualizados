@@ -1,0 +1,26 @@
+# Dependências
+node_modules/
+
+# Sistema
+desktop.ini
+Thumbs.db
+
+# Instaladores e binários locais
+*.msi
+
+# Pastas locais não relacionadas ao site
+Camera Roll/
+Nitro/
+Screenshots/
+anamallin/
+post simol/
+preenchimento tabela IPA/
+
+# Arquivos temporários ou pessoais que não fazem parte da publicação
+fumaca.txt
+
+# Ajuste estes arquivos se você decidir manter só o conteúdo do site no repositório
+# Eles não estão sendo ignorados agora porque podem fazer parte da análise:
+# 251218_1019_ProteinGroup_dia.txt
+# comparacoesinterpretacao.docx
+# f1000research-6-13583.pdf

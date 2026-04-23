@@ -1,0 +1,7 @@
+Module,N_genes_input,N_genes_mapped,GO_BP_terms,GO_MF_terms,KEGG_terms,Reactome_terms
+turquoise,843,842,381,132,17,225
+yellow,88,88,70,4,1,6
+blue,311,311,330,64,48,62
+brown,315,315,297,60,86,168
+black,3,0,0,0,0,0
+red,17,17,41,7,8,17

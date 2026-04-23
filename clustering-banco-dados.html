@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clustering - Banco de Dados</title>
+  <style>
+    :root {
+      --baby-blue: #bfe9ff;
+      --rose: #ffd1df;
+      --ink: #182337;
+      --ink-soft: #4a5b70;
+      --white: #fffdfd;
+      --line: rgba(24, 35, 55, 0.12);
+      --shadow: rgba(24, 35, 55, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 38%), rgba(191, 233, 255, 0.42), transparent 22rem),
+        linear-gradient(135deg, rgba(255, 209, 223, 0.32), transparent 34%),
+        var(--white);
+    }
+
+    .page {
+      width: min(1040px, 100%);
+      margin: 0 auto;
+      padding: 34px 22px 64px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 22px;
+      color: var(--ink-soft);
+      font-size: 0.94rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .back-link:hover,
+    .back-link:focus-visible {
+      color: var(--ink);
+      outline: none;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1;
+    }
+
+    .subtitle {
+      margin: 14px 0 0;
+      color: var(--ink-soft);
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid rgba(24, 35, 55, 0.12);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 14px 28px var(--shadow);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 0.92rem;
+      font-weight: 850;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      background: white;
+    }
+
+    .gallery img.zoomable {
+      cursor: zoom-in;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .gallery img.zoomable:hover,
+    .gallery img.zoomable:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(24, 35, 55, 0.18);
+      outline: 3px solid rgba(91, 189, 233, 0.42);
+      outline-offset: 3px;
+    }
+
+    .tables {
+      display: grid;
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .table-card {
+      padding: 16px;
+      border: 1px solid rgba(24, 35, 55, 0.12);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 14px 28px var(--shadow);
+      overflow-x: auto;
+    }
+
+    .table-card h2 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      font-weight: 850;
+    }
+
+    .cluster-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 520px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .cluster-table th,
+    .cluster-table td {
+      padding: 10px 12px;
+      border: 1px solid rgba(24, 35, 55, 0.12);
+      text-align: center;
+      font-size: 0.94rem;
+    }
+
+    .cluster-table th {
+      background: rgba(191, 233, 255, 0.34);
+      font-weight: 900;
+    }
+
+    .cluster-table th:first-child,
+    .cluster-table td:first-child {
+      text-align: left;
+      font-weight: 850;
+    }
+
+    .zoom-overlay {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(24, 35, 55, 0.82);
+      z-index: 999;
+    }
+
+    .zoom-overlay[hidden] {
+      display: none;
+    }
+
+    .zoom-dialog {
+      position: relative;
+      max-width: min(1100px, 96vw);
+      max-height: 92vh;
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    }
+
+    .zoom-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(24, 35, 55, 0.1);
+      color: var(--ink);
+      font-size: 1.1rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .zoom-close:hover,
+    .zoom-close:focus-visible {
+      background: rgba(24, 35, 55, 0.18);
+      outline: none;
+    }
+
+    .zoom-image {
+      display: block;
+      max-width: min(1040px, 88vw);
+      max-height: calc(92vh - 32px);
+      width: auto;
+      height: auto;
+      margin-top: 18px;
+      border-radius: 10px;
+      background: white;
+    }
+
+    @media (max-width: 900px) {
+      .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <a class="back-link" href="dados-banco-dados.html">← Voltar</a>
+    <h1>Clustering</h1>
+    <p class="subtitle">Página inicial de clustering do banco de dados.</p>
+
+    <section class="gallery" aria-label="Imagens de clustering do banco de dados">
+      <figure class="card">
+        <h2>Consensus 001</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus001.png" alt="Imagem consensus 001 do clustering do banco de dados" tabindex="0">
+      </figure>
+      <figure class="card">
+        <h2>Consensus 002</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus002.png" alt="Imagem consensus 002 do clustering do banco de dados" tabindex="0">
+      </figure>
+      <figure class="card">
+        <h2>Consensus 003</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus003.png" alt="Imagem consensus 003 do clustering do banco de dados" tabindex="0">
+      </figure>
+      <figure class="card">
+        <h2>Consensus 004</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus004.png" alt="Imagem consensus 004 do clustering do banco de dados" tabindex="0">
+      </figure>
+      <figure class="card">
+        <h2>Consensus 005</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus005.png" alt="Imagem consensus 005 do clustering do banco de dados" tabindex="0">
+      </figure>
+      <figure class="card">
+        <h2>Consensus 006</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus006.png" alt="Imagem consensus 006 do clustering do banco de dados" tabindex="0">
+      </figure>
+      <figure class="card">
+        <h2>Consensus 007</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus007.png" alt="Imagem consensus 007 do clustering do banco de dados" tabindex="0">
+      </figure>
+      <figure class="card">
+        <h2>Consensus 008</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus008.png" alt="Imagem consensus 008 do clustering do banco de dados" tabindex="0">
+      </figure>
+      <figure class="card">
+        <h2>Consensus 009</h2>
+        <img class="zoomable" src="clusteringbancodedados/consensus009.png" alt="Imagem consensus 009 do clustering do banco de dados" tabindex="0">
+      </figure>
+    </section>
+
+    <section class="tables" aria-label="Tabelas de clusters por diagnóstico">
+      <section class="table-card" aria-labelledby="clusters-k4-title">
+        <h2 id="clusters-k4-title">CLUSTERS K=4</h2>
+        <table class="cluster-table">
+          <thead>
+            <tr>
+              <th>Cluster</th>
+              <th>ATRT</th>
+              <th>EPN</th>
+              <th>HGG</th>
+              <th>LGG</th>
+              <th>MB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>11</td><td>5</td><td>12</td><td>4</td><td>20</td></tr>
+            <tr><td>2</td><td>1</td><td>2</td><td>5</td><td>33</td><td>0</td></tr>
+            <tr><td>3</td><td>0</td><td>22</td><td>1</td><td>2</td><td>0</td></tr>
+            <tr><td>4</td><td>0</td><td>1</td><td>4</td><td>51</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="table-card" aria-labelledby="clusters-k5-title">
+        <h2 id="clusters-k5-title">CLUSTERS K=5</h2>
+        <table class="cluster-table">
+          <thead>
+            <tr>
+              <th>Cluster</th>
+              <th>ATRT</th>
+              <th>EPN</th>
+              <th>HGG</th>
+              <th>LGG</th>
+              <th>MB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>10</td><td>5</td><td>9</td><td>1</td><td>20</td></tr>
+            <tr><td>2</td><td>1</td><td>3</td><td>5</td><td>7</td><td>0</td></tr>
+            <tr><td>3</td><td>1</td><td>1</td><td>4</td><td>33</td><td>0</td></tr>
+            <tr><td>4</td><td>0</td><td>21</td><td>1</td><td>1</td><td>0</td></tr>
+            <tr><td>5</td><td>0</td><td>0</td><td>3</td><td>48</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+  </main>
+
+  <div class="zoom-overlay" id="zoom-overlay" hidden>
+    <div class="zoom-dialog" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+      <button class="zoom-close" id="zoom-close" type="button" aria-label="Fechar imagem ampliada">×</button>
+      <img class="zoom-image" id="zoom-image" alt="">
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const zoomOverlay = document.getElementById("zoom-overlay");
+    const zoomImage = document.getElementById("zoom-image");
+    const zoomClose = document.getElementById("zoom-close");
+
+    window.addEventListener("pointermove", (event) => {
+      root.style.setProperty("--mouse-x", `${event.clientX}px`);
+      root.style.setProperty("--mouse-y", `${event.clientY}px`);
+    });
+
+    const openZoom = (image) => {
+      zoomImage.src = image.src;
+      zoomImage.alt = image.alt;
+      zoomOverlay.hidden = false;
+    };
+
+    const closeZoom = () => {
+      zoomOverlay.hidden = true;
+      zoomImage.src = "";
+      zoomImage.alt = "";
+    };
+
+    document.querySelectorAll(".gallery img.zoomable").forEach((image) => {
+      image.addEventListener("click", () => openZoom(image));
+      image.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openZoom(image);
+        }
+      });
+    });
+
+    zoomOverlay.addEventListener("click", (event) => {
+      if (event.target === zoomOverlay) {
+        closeZoom();
+      }
+    });
+
+    zoomClose.addEventListener("click", closeZoom);
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !zoomOverlay.hidden) {
+        closeZoom();
+      }
+    });
+  </script>
+</body>
+</html>

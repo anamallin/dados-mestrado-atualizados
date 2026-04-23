@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dados do Banco de Dados - Ana Mallin</title>
+  <style>
+    :root {
+      --baby-blue: #bfe9ff;
+      --blue-clear: #dff6ff;
+      --rose: #ffd1df;
+      --rose-strong: #f29bb8;
+      --ink: #17263b;
+      --ink-soft: #39536d;
+      --line: rgba(23, 38, 59, 0.18);
+      --white: #fffafc;
+      --shadow: rgba(23, 38, 59, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at var(--mouse-x, 52%) var(--mouse-y, 46%), rgba(255, 255, 255, 0.68), transparent 24rem),
+        linear-gradient(135deg, rgba(223, 246, 255, 0.76), rgba(255, 209, 223, 0.66)),
+        url("planodefundositeana.jpg") center / cover fixed;
+      overflow-x: hidden;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 42px 22px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .soft-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 58px 58px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.34), transparent 74%);
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .panel {
+      width: min(860px, 100%);
+      padding: 30px 24px 34px;
+      border: 1px solid rgba(23, 38, 59, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 250, 252, 0.74);
+      box-shadow: 0 22px 44px var(--shadow);
+      backdrop-filter: blur(8px);
+      animation: enter 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 24px;
+      color: var(--ink-soft);
+      font-size: 0.94rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .back-link:hover,
+    .back-link:focus-visible {
+      color: var(--ink);
+      outline: none;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 5.5vw, 4rem);
+      line-height: 0.98;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      margin: 14px 0 0;
+      color: var(--ink-soft);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.55;
+      max-width: 680px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .action-button {
+      min-height: 96px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px 24px;
+      border: 2px solid rgba(23, 38, 59, 0.22);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+      text-decoration: none;
+      text-align: center;
+      font-size: clamp(1rem, 2.5vw, 1.28rem);
+      font-weight: 850;
+      box-shadow: 0 18px 34px rgba(23, 38, 59, 0.12);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .action-button:hover,
+    .action-button:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(23, 38, 59, 0.48);
+      background: linear-gradient(120deg, rgba(191, 233, 255, 0.86), rgba(255, 209, 223, 0.92));
+      box-shadow: 0 24px 42px rgba(23, 38, 59, 0.18);
+      outline: none;
+    }
+
+    @keyframes enter {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 24px 18px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="soft-grid" aria-hidden="true"></div>
+
+    <section class="panel" aria-labelledby="title">
+      <a class="back-link" href="index.html">← Voltar</a>
+      <h1 id="title">Dados do Banco de Dados</h1>
+      <p class="subtitle">Escolha a área que você quer abrir dentro dos dados oriundos do banco de dados.</p>
+
+      <div class="actions" aria-label="Escolha uma área">
+        <a class="action-button" href="clustering-banco-dados.html">Clustering</a>
+        <a class="action-button" href="analise-enriquecimento-banco-dados.html">Análise e Enriquecimento</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const root = document.documentElement;
+
+    window.addEventListener("pointermove", (event) => {
+      root.style.setProperty("--mouse-x", `${event.clientX}px`);
+      root.style.setProperty("--mouse-y", `${event.clientY}px`);
+    });
+  </script>
+</body>
+</html>

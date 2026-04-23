@@ -1,0 +1,2 @@
+"category","subcategory","ID","Description","GeneRatio","BgRatio","RichFactor","FoldEnrichment","zScore","pvalue","p.adjust","qvalue","geneID","Count"
+"Cellular Processes","Transport and catabolism","hsa04145","Phagosome","17/223","99/3535",0.171717171717172,2.72206368618925,4.50900553554475,0.000113580893868902,0.0319162311771614,0.0318026502832925,"6890/23673/200576/9554/203068/3685/526/523/4074/51606/6891/5878/529/2212/9296/10381/10952",17
