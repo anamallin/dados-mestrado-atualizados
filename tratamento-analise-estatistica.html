@@ -437,6 +437,11 @@
       font-weight: 720;
     }
 
+    .section-title-centered,
+    .section-text-centered {
+      text-align: center;
+    }
+
     .cluster-legend {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -488,6 +493,144 @@
       font-size: 1.04rem;
       font-weight: 900;
       line-height: 1.25;
+    }
+
+    .daps-helper {
+      margin: 0 0 14px;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      font-weight: 720;
+      line-height: 1.5;
+    }
+
+    .contrast-table-scroll {
+      overflow: auto;
+      max-width: 100%;
+      margin-top: 12px;
+      border: 1px solid rgba(24, 35, 55, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .contrast-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      color: var(--ink);
+      font-size: 0.86rem;
+    }
+
+    .contrast-table th,
+    .contrast-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid rgba(24, 35, 55, 0.1);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .contrast-table th {
+      background: #d9eef7;
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .contrast-table tbody tr:nth-child(even) {
+      background: rgba(217, 238, 247, 0.34);
+    }
+
+    .contrast-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 0.94rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .contrast-title::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      flex: 0 0 14px;
+      border-radius: 50%;
+      background: var(--contrast-color);
+      box-shadow: 0 0 0 2px rgba(24, 35, 55, 0.22);
+    }
+
+    .contrast-subtitle {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      font-weight: 820;
+      line-height: 1.35;
+    }
+
+    .contrast-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .contrast-chip,
+    .csv-filter {
+      min-height: 34px;
+      padding: 7px 10px;
+      border: 1px solid rgba(24, 35, 55, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96);
+      color: #102033;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .contrast-chip:hover,
+    .contrast-chip:focus-visible,
+    .csv-filter:hover,
+    .csv-filter:focus-visible,
+    .csv-filter.active,
+    .contrast-chip.active {
+      border-color: var(--contrast-color, #244c73);
+      background: var(--contrast-color, #244c73);
+      color: #ffffff;
+      outline: none;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(16, 32, 51, 0.14);
+    }
+
+    .contrast-chip.is-up,
+    .csv-filter.is-up,
+    .contrast-count.is-up {
+      --contrast-color: #237a3b;
+    }
+
+    .contrast-chip.is-down,
+    .csv-filter.is-down,
+    .contrast-count.is-down {
+      --contrast-color: #b42318;
+    }
+
+    .contrast-chip.is-open {
+      --contrast-color: #244c73;
+    }
+
+    .contrast-count {
+      font-weight: 900;
+    }
+
+    .contrast-count.is-up {
+      color: #237a3b;
+    }
+
+    .contrast-count.is-down {
+      color: #b42318;
     }
 
     .upset-layout {
@@ -704,24 +847,30 @@
       padding: 14px 16px;
       border: 0;
       border-radius: 0;
-      background: rgba(241, 251, 255, 0.92);
-      color: var(--ink);
+      background: color-mix(in srgb, var(--contrast-color, #244c73) 18%, white 82%);
+      color: #102033;
       font: inherit;
       text-align: left;
       cursor: pointer;
       min-width: 0;
+      transition: background 160ms ease, color 160ms ease;
     }
 
     .csv-toggle:hover,
     .csv-toggle:focus-visible {
-      background: rgba(191, 233, 255, 0.54);
+      background: color-mix(in srgb, var(--contrast-color, #244c73) 30%, white 70%);
       outline: none;
+    }
+
+    .csv-toggle[aria-expanded="true"] {
+      background: var(--contrast-color, #244c73);
+      color: #ffffff;
     }
 
     .csv-toggle::after {
       content: "mostrar";
       flex: 0 0 auto;
-      color: var(--ink-soft);
+      color: inherit;
       font-size: 0.86rem;
       font-weight: 900;
     }
@@ -732,7 +881,7 @@
 
     .csv-toggle-title {
       margin: 0;
-      color: var(--ink);
+      color: inherit;
       font-size: 1rem;
       font-weight: 900;
       min-width: 0;
@@ -748,6 +897,15 @@
       display: none;
     }
 
+    .daps-panel-body {
+      padding-top: 16px;
+      border-top: 1px solid rgba(24, 35, 55, 0.1);
+    }
+
+    .daps-panel-body[hidden] {
+      display: none;
+    }
+
     .csv-search {
       width: 100%;
       margin: 0 0 12px;
@@ -759,6 +917,51 @@
       font: inherit;
       font-size: 0.95rem;
       font-weight: 700;
+    }
+
+    .csv-controls {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .csv-filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .csv-results-meta {
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      font-weight: 820;
+    }
+
+    .csv-download-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid rgba(24, 35, 55, 0.16);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--contrast-color, #244c73) 16%, white 84%);
+      color: #102033;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .csv-download-link:hover,
+    .csv-download-link:focus-visible {
+      background: var(--contrast-color, #244c73);
+      color: #ffffff;
+      outline: none;
+      transform: translateY(-1px);
     }
 
     .csv-table {
@@ -777,10 +980,19 @@
       white-space: nowrap;
     }
 
+    .csv-table tbody tr.fc-positive {
+      background: rgba(35, 122, 59, 0.1);
+    }
+
+    .csv-table tbody tr.fc-negative {
+      background: rgba(180, 35, 24, 0.1);
+    }
+
     .csv-table th {
       position: sticky;
       top: 0;
-      background: #f1fbff;
+      background: color-mix(in srgb, var(--contrast-color, #244c73) 84%, white 16%);
+      color: #ffffff;
       font-weight: 900;
     }
 
@@ -984,6 +1196,314 @@
       color: var(--ink-soft);
       font-size: 0.9rem;
       font-weight: 720;
+    }
+
+    .ora-browser {
+      width: min(1540px, calc(100vw - 40px));
+      margin: 20px 50% 28px;
+      transform: translateX(-50%);
+      padding: 20px;
+      border: 1px solid rgba(24, 35, 55, 0.13);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 16px 34px rgba(24, 35, 55, 0.1);
+    }
+
+    .ora-browser-title {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: clamp(1.08rem, 2vw, 1.34rem);
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .ora-note {
+      color: var(--ink-soft);
+      font-size: 0.94rem;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .ora-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .ora-summary-card {
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(241, 251, 255, 0.94), rgba(255, 255, 255, 0.96));
+      border: 1px solid rgba(24, 35, 55, 0.1);
+    }
+
+    .ora-summary-value {
+      display: block;
+      color: var(--ink);
+      font-size: 1.28rem;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .ora-summary-label {
+      display: block;
+      margin-top: 5px;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      font-weight: 820;
+      line-height: 1.35;
+    }
+
+    .ora-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .ora-search,
+    .ora-select,
+    .ora-input {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 12px;
+      border: 1px solid rgba(24, 35, 55, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 720;
+    }
+
+    .ora-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      grid-column: 1 / -1;
+      margin-top: 4px;
+    }
+
+    .ora-button {
+      min-height: 40px;
+      padding: 10px 14px;
+      border: 1px solid rgba(24, 35, 55, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 880;
+      cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .ora-button:hover,
+    .ora-button:focus-visible {
+      border-color: rgba(95, 75, 139, 0.34);
+      background: rgba(224, 210, 255, 0.34);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .ora-button-primary {
+      border-color: rgba(122, 38, 93, 0.34);
+      background: linear-gradient(135deg, rgba(255, 232, 244, 0.96), rgba(240, 244, 255, 0.96));
+      color: #7a265d;
+      font-weight: 900;
+    }
+
+    .ora-selected-title {
+      margin: 18px 0 10px;
+      color: var(--ink);
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .ora-table-wrap {
+      overflow: auto;
+      max-width: 100%;
+      border: 1px solid rgba(24, 35, 55, 0.12);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.82);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ora-table {
+      width: 100%;
+      min-width: 1220px;
+      border-collapse: collapse;
+      color: var(--ink);
+      font-size: 0.82rem;
+    }
+
+    .ora-table th,
+    .ora-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid rgba(24, 35, 55, 0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .ora-table th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f1fbff;
+      font-weight: 900;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .ora-table th.sort-active {
+      color: #5f4b8b;
+    }
+
+    .ora-table tbody tr.ora-row-up {
+      background: rgba(113, 194, 98, 0.14);
+    }
+
+    .ora-table tbody tr.ora-row-down {
+      background: rgba(240, 120, 120, 0.13);
+    }
+
+    @media (max-width: 900px) {
+      .ora-browser {
+        width: calc(100vw - 22px);
+      }
+    }
+
+    .ora-badge,
+    .ora-direction,
+    .ora-gene-status,
+    .ora-logfc {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 900;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .ora-db-hallmark {
+      background: rgba(176, 74, 0, 0.16);
+      color: #8a3400;
+    }
+
+    .ora-db-go {
+      background: rgba(47, 107, 47, 0.16);
+      color: #245924;
+    }
+
+    .ora-db-kegg {
+      background: rgba(106, 63, 181, 0.16);
+      color: #4d2d85;
+    }
+
+    .ora-db-reactome {
+      background: rgba(31, 95, 139, 0.16);
+      color: #1f496a;
+    }
+
+    .ora-up {
+      background: rgba(113, 194, 98, 0.2);
+      color: #236b1d;
+    }
+
+    .ora-down {
+      background: rgba(235, 91, 91, 0.18);
+      color: #a32727;
+    }
+
+    .ora-pathway {
+      min-width: 320px;
+      font-weight: 850;
+      line-height: 1.45;
+    }
+
+    .ora-gene {
+      font-weight: 820;
+    }
+
+    .ora-pathway-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .ora-pathway-chip {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 780;
+      line-height: 1.35;
+    }
+
+    .ora-pathway-chip.ora-db-hallmark {
+      background: rgba(176, 74, 0, 0.12);
+      color: #8a3400;
+    }
+
+    .ora-pathway-chip.ora-db-go {
+      background: rgba(47, 107, 47, 0.12);
+      color: #245924;
+    }
+
+    .ora-pathway-chip.ora-db-kegg {
+      background: rgba(106, 63, 181, 0.12);
+      color: #4d2d85;
+    }
+
+    .ora-pathway-chip.ora-db-reactome {
+      background: rgba(31, 95, 139, 0.12);
+      color: #1f496a;
+    }
+
+    .ora-fdr {
+      font-weight: 820;
+    }
+
+    .ora-fdr.fdr-excellent {
+      color: #0a6c3f;
+      background: rgba(35, 122, 59, 0.14);
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    .ora-fdr.fdr-strong {
+      color: #8a3400;
+      background: rgba(176, 74, 0, 0.14);
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    .ora-pagination {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .ora-pagination-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .ora-page-info,
+    .ora-status {
+      color: var(--ink-soft);
+      font-size: 0.86rem;
+      font-weight: 780;
     }
 
     .summary-figures {
@@ -2787,7 +3307,7 @@
             <p>Como <span class="highlight">dados ômicos não seguem um padrão perfeitamente normal e têm problemas de desigualdade na variância</span>, a ANOVA clássica não é recomendada, de modo que correções como BH e FDR mostram-se necessárias. Nesse contexto, estudei bastante os métodos possíveis para testar quais proteínas estariam diferencialmente expressas, e encontrei a <span class="highlight">ANOVA do pacote limma no R</span>.</p>
             <p>O método foi desenvolvido para contextos de <span class="highlight">alta dimensionalidade e número relativamente pequeno de amostras</span>, nosso cenário na proteômica, apesar de ele ter surgido para transcriptômica. Diferentemente da ANOVA clássica, o limma ajusta <span class="highlight">modelos lineares para cada proteína e aplica uma moderação Bayesiana empírica das variâncias</span>: ele olha para todos os dados e vê o comportamento geral deles para ajustar cada proteína de acordo com o comportamento global. Isso torna as estimativas mais estáveis e aumenta o poder estatístico, principalmente quando há heterogeneidade entre amostras e variâncias pouco confiáveis, que é o nosso caso.</p>
             <p>Além disso, o método permite testar simultaneamente diferenças globais entre múltiplos grupos e realizar contrastes específicos de forma integrada, com correção para múltiplas comparações. Assim, a escolha da ANOVA do limma para os nossos dados traz robustez pela capacidade de lidar adequadamente com milhares de proteínas avaliadas em paralelo e por fornecer uma abordagem estatisticamente mais apropriada do que métodos clássicos univariados em um contexto de alta complexidade biológica e dimensional.</p>
-            <h2 class="clustering-results-title spaced">PCA dos Clusters pré-Análise</h2>
+            <h2 class="clustering-results-title spaced section-title-centered">PCA dos Clusters pré-Análise</h2>
             <img class="imputation-diagnostic zoomable" src="PCA_clusters_msImpute_k4.png" alt="PCA dos clusters pré-análise" tabindex="0">
             <div class="solid-topic-box" aria-label="Critérios da análise diferencial">
               <ul>
@@ -2795,95 +3315,44 @@
                 <li>Os p-valores foram corrigidos para múltiplas comparações pelo método de <strong>Benjamini-Hochberg</strong>.</li>
                 <li>Foram consideradas de interesse as proteínas com p-valor ajustado da <strong>ANOVA &lt; 0,05</strong>.</li>
                 <li>Fold change 2x.</li>
-                <li>Adicionalmente, foram realizados seis contrastes par a par entre os grupos (post-hoc). Para cada contraste, foram extraídos os valores de logFC e p-valores ajustados.</li>
+                <li>Adicionalmente, foram realizados seis contrastes par a par entre os grupos (post-hoc). Para cada contraste, foram extraídos os valores de Fold Change e p-valores ajustados.</li>
               </ul>
             </div>
+            <img class="imputation-diagnostic zoomable" src="heatmap_legenda_maior.png" alt="Heatmap legenda maior" tabindex="0">
             <section class="daps-section" aria-labelledby="daps-title">
-              <h2 class="clustering-results-title spaced" id="daps-title">DAPs/DEPs</h2>
-              <p>Listas das proteínas diferencialmente expressas/abundantes.</p>
-              <div class="cluster-legend" aria-label="Legenda dos clusters">
-                <span><i style="--cluster-color: #8bb3c7;"></i>C1: EPN-like</span>
-                <span><i style="--cluster-color: #a8bf99;"></i>C2: Glial</span>
-                <span><i style="--cluster-color: #cfadbc;"></i>C3: MB</span>
-                <span><i style="--cluster-color: #d6c47e;"></i>C4: ATRT</span>
-              </div>
-              <section class="daps-panel" aria-labelledby="volcano-title">
-                <h3 id="volcano-title">Volcano</h3>
-                <p>Painel com os volcano plots de todos os contrastes avaliados na análise diferencial.</p>
-                <img class="volcano-image zoomable" src="volcanoplots/volcano_todos_contrastes_painel.png" alt="Painel com volcano plots de todos os contrastes" tabindex="0">
-              </section>
-              <section class="daps-panel" aria-labelledby="heatmaps-top40-title">
-                <h3 id="heatmaps-top40-title">Heatmaps top 40 genes</h3>
-                <p>Heatmaps com os 40 genes ordenados por fold change e p-valor em cada contraste, separados em proteínas UP e DOWN.</p>
-                <div class="heatmap-genes-stack" aria-label="Lista vertical dos heatmaps top 40 genes">
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_ATRT_vs_EPN_like_Up.png" alt="Heatmap top 40 genes ATRT vs EPN-like Up" tabindex="0">
-                    <figcaption class="enrichment-note">ATRT vs EPN-like: top 40 genes UP.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_ATRT_vs_EPN_like_Down.png" alt="Heatmap top 40 genes ATRT vs EPN-like Down" tabindex="0">
-                    <figcaption class="enrichment-note">ATRT vs EPN-like: top 40 genes DOWN.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_ATRT_vs_Glial_Up.png" alt="Heatmap top 40 genes ATRT vs Glial Up" tabindex="0">
-                    <figcaption class="enrichment-note">ATRT vs Glial: top 40 genes UP.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_ATRT_vs_Glial_Down.png" alt="Heatmap top 40 genes ATRT vs Glial Down" tabindex="0">
-                    <figcaption class="enrichment-note">ATRT vs Glial: top 40 genes DOWN.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_ATRT_vs_MB_Up.png" alt="Heatmap top 40 genes ATRT vs MB Up" tabindex="0">
-                    <figcaption class="enrichment-note">ATRT vs MB: top 40 genes UP.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_ATRT_vs_MB_Down.png" alt="Heatmap top 40 genes ATRT vs MB Down" tabindex="0">
-                    <figcaption class="enrichment-note">ATRT vs MB: top 40 genes DOWN.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_EPN_like_vs_Glial_Up.png" alt="Heatmap top 40 genes EPN-like vs Glial Up" tabindex="0">
-                    <figcaption class="enrichment-note">EPN-like vs Glial: top 40 genes UP.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_EPN_like_vs_Glial_Down.png" alt="Heatmap top 40 genes EPN-like vs Glial Down" tabindex="0">
-                    <figcaption class="enrichment-note">EPN-like vs Glial: top 40 genes DOWN.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_MB_vs_EPN_like_Up.png" alt="Heatmap top 40 genes MB vs EPN-like Up" tabindex="0">
-                    <figcaption class="enrichment-note">MB vs EPN-like: top 40 genes UP.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_MB_vs_EPN_like_Down.png" alt="Heatmap top 40 genes MB vs EPN-like Down" tabindex="0">
-                    <figcaption class="enrichment-note">MB vs EPN-like: top 40 genes DOWN.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_MB_vs_Glial_Up.png" alt="Heatmap top 40 genes MB vs Glial Up" tabindex="0">
-                    <figcaption class="enrichment-note">MB vs Glial: top 40 genes UP.</figcaption>
-                  </figure>
-                  <figure class="heatmap-genes-card">
-                    <img class="heatmap-genes-image zoomable" src="heatmapsgenes/heatmap_genes_MB_vs_Glial_Down.png" alt="Heatmap top 40 genes MB vs Glial Down" tabindex="0">
-                    <figcaption class="enrichment-note">MB vs Glial: top 40 genes DOWN.</figcaption>
-                  </figure>
-                </div>
-              </section>
-              <p class="daps-status" id="daps-status">Carregando listas DAPs...</p>
-              <section class="daps-panel" aria-labelledby="upset-title">
-                <h3 id="upset-title">Interseções entre os 6 contrastes</h3>
-                <div class="upset-filters" id="upset-filters" aria-label="Filtros do UpSet plot"></div>
-                <div class="upset-layout">
-                  <div class="upset-scroll">
-                    <div class="upset-plot" id="daps-upset-plot" aria-label="UpSet plot dos contrastes DAPs"></div>
-                  </div>
-                  <aside class="intersection-panel" aria-live="polite">
-                    <h4 id="intersection-title">Selecione uma interseção</h4>
-                    <p id="intersection-meta">Clique em uma linha do UpSet plot para visualizar todos os genes daquela região exclusiva.</p>
-                    <textarea class="gene-list" id="intersection-genes" readonly aria-label="Genes da interseção selecionada"></textarea>
-                  </aside>
-                </div>
+              <h2 class="clustering-results-title spaced section-title-centered" id="daps-title">DAPs/DEPs</h2>
+              <p class="section-text-centered">Listas das proteínas diferencialmente expressas/abundantes.</p>
+              <section class="daps-panel" aria-labelledby="daps-contrast-browser-title">
+                <h3 id="daps-contrast-browser-title">Acesso interativo por contraste</h3>
+                <p class="daps-helper">Para cada contraste, você pode abrir a lista completa de DAPs ou aplicar filtros de <code>Fold Change &gt; 0</code> e <code>Fold Change &lt; 0</code>. Em geral, <code>Fold Change &gt; 0</code> indica maior abundância no primeiro grupo do contraste.</p>
+                <div id="daps-contrast-table"></div>
               </section>
               <section class="csv-tables" aria-labelledby="csv-tables-title">
                 <h3 class="clustering-results-title spaced" id="csv-tables-title">Tabelas dos arquivos DAPs</h3>
                 <div id="daps-tables"></div>
+              </section>
+              <section class="daps-panel" aria-labelledby="upset-title">
+                <button class="csv-toggle" id="upset-toggle" type="button" aria-expanded="false" aria-controls="upset-body">
+                  <span class="csv-toggle-title" id="upset-title">Interseções entre os 6 contrastes</span>
+                </button>
+                <div class="daps-panel-body" id="upset-body" hidden>
+                  <div class="upset-filters" id="upset-filters" aria-label="Filtros do UpSet plot"></div>
+                  <div class="upset-layout">
+                    <div class="upset-scroll">
+                      <div class="upset-plot" id="daps-upset-plot" aria-label="UpSet plot dos contrastes DAPs"></div>
+                    </div>
+                    <aside class="intersection-panel" aria-live="polite">
+                      <h4 id="intersection-title">Selecione uma interseção</h4>
+                      <p id="intersection-meta">Clique em uma linha do UpSet plot para visualizar todos os genes daquela região exclusiva.</p>
+                      <textarea class="gene-list" id="intersection-genes" readonly aria-label="Genes da interseção selecionada"></textarea>
+                    </aside>
+                  </div>
+                </div>
+              </section>
+              <section class="daps-panel" aria-labelledby="volcano-title">
+                <h3 id="volcano-title">Volcano</h3>
+                <p>Painel com os volcano plots de todos os contrastes avaliados na análise diferencial.</p>
+                <img class="volcano-image zoomable" src="volcanoplots/volcano_todos_contrastes_painel.png" alt="Painel com volcano plots de todos os contrastes" tabindex="0">
               </section>
             </section>
           </div>
@@ -2894,7 +3363,15 @@
         <button class="section-toggle enrichment-toggle" type="button" aria-expanded="false" aria-controls="enrichment-content">ENRIQUECIMENTO</button>
         <div class="content-body" id="enrichment-content" hidden>
           <section class="enrichment-panel" aria-labelledby="enrichment-gallery-title">
-            <p class="enrichment-note">Enriquecimento realizado através do pacote <a class="article-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5747338/" target="_blank" rel="noopener noreferrer">EGSEA</a>, para Hallmarks (MSigDB) e KEGG.</p>
+            <p class="enrichment-note">Enriquecimento para cada contraste (inclusive UP/DOWN) via ORA através do pacote clusterProfiler no R.</p>
+            <section class="ora-browser" aria-labelledby="ora-browser-title">
+              <h2 class="ora-browser-title" id="ora-browser-title">Resultados ORA por contraste</h2>
+              <p class="ora-note">A tabela ORA completa fica disponível em uma página dedicada, com filtros por contraste, banco, via, gene e direção.</p>
+              <div class="ora-actions" style="margin: 14px 0 0;">
+                <a class="ora-button ora-button-primary" href="ora-enriquecimento.html">Abrir tabela ORA em página inteira</a>
+              </div>
+
+            </section>
             <h2 class="clustering-results-title spaced" id="enrichment-gallery-title">Figuras de enriquecimento</h2>
 
             <section class="enrichment-card" aria-labelledby="enrichment-root-title">
@@ -3245,7 +3722,7 @@
       </section>
 
       <section class="content" aria-label="Biomarcadores">
-        <button class="section-toggle biomarker-toggle" type="button" aria-expanded="false" aria-controls="biomarker-content">BIOMARCADORES</button>
+        <button class="section-toggle biomarker-toggle" type="button" aria-expanded="false" aria-controls="biomarker-content">INTERSEÇÃO</button>
         <div class="content-body" id="biomarker-content" hidden>
           <section class="biomarker-panel" aria-labelledby="biomarker-overlap-title">
             <h2 class="clustering-results-title spaced" id="biomarker-overlap-title">Proteínas comuns UP e DOWN por diagnóstico</h2>
@@ -3273,6 +3750,13 @@
                       <th data-overlap-sort="N_up_comuns">UP comuns</th>
                       <th data-overlap-sort="N_down_comuns">DOWN comuns</th>
                       <th data-overlap-sort="totalGenes">Total</th>
+                      <th data-overlap-sort="N_genes_lista_total">Genes na lista</th>
+                      <th data-overlap-sort="N_plasma_total">Plasma</th>
+                      <th data-overlap-sort="N_secreted_to_brain_total">Brain</th>
+                      <th data-overlap-sort="N_CSF_total">CSF</th>
+                      <th data-overlap-sort="N_em_pelo_menos_1_base_total">Em >=1 base</th>
+                      <th data-overlap-sort="N_em_2_ou_mais_bases_total">Em >=2 bases</th>
+                      <th data-overlap-sort="N_em_3_bases_total">Em 3 bases</th>
                     </tr>
                   </thead>
                   <tbody id="biomarker-overlap-table-body"></tbody>
@@ -3282,7 +3766,7 @@
             </section>
 
             <section class="biomarker-subsection" aria-labelledby="biomarker-overlap-genes-title">
-              <h3 class="biomarker-subtitle" id="biomarker-overlap-genes-title">Tabela detalhada de genes</h3>
+              <h3 class="biomarker-subtitle" id="biomarker-overlap-genes-title">Cruzamento para dados de plasma e CSF do Human Protein Atlas</h3>
               <div class="biomarker-controls">
                 <input class="biomarker-search" id="biomarker-overlap-search" type="search" placeholder="Buscar gene, diagnóstico ou contraste...">
                 <select class="biomarker-select" id="biomarker-overlap-diagnosis-filter">
@@ -3302,7 +3786,13 @@
                       <th data-overlap-gene-sort="Diagnostico">Diagnóstico</th>
                       <th data-overlap-gene-sort="Direction">Direção</th>
                       <th data-overlap-gene-sort="Gene">Gene</th>
+                      <th data-overlap-gene-sort="Lista">Lista</th>
                       <th data-overlap-gene-sort="Contrastes">Contrastes</th>
+                      <th data-overlap-gene-sort="Plasma">Plasma</th>
+                      <th data-overlap-gene-sort="Secreted_to_brain">Brain</th>
+                      <th data-overlap-gene-sort="CSF">CSF</th>
+                      <th data-overlap-gene-sort="N_fontes_positivas">N bases</th>
+                      <th data-overlap-gene-sort="Categoria_intersecao">Categoria</th>
                     </tr>
                   </thead>
                   <tbody id="biomarker-overlap-genes-body"></tbody>
@@ -3384,28 +3874,43 @@
       C4: "ATRT",
     };
 
+    const contrastPalette = {
+      ATRT_vs_EPN_like: "#8f2d56",
+      ATRT_vs_Glial: "#1f5f8b",
+      ATRT_vs_MB: "#b04a00",
+      EPN_like_vs_Glial: "#2f6b2f",
+      MB_vs_EPN_like: "#6a3fb5",
+      MB_vs_Glial: "#9a8c00",
+    };
+
     const displayContrast = (value) => (
       (value || "").replace(/C[1-4]/g, (cluster) => clusterNames[cluster] || cluster).replace(/_/g, " ")
     );
 
+    const displayNamedContrast = (value) => (value || "").replace(/_/g, " ");
+
     const dapsFiles = [
-      { file: "DAPs_C1_vs_C2.csv", label: "EPN-like vs Glial", clusters: ["C1", "C2"] },
-      { file: "DAPs_C1_vs_C3.csv", label: "EPN-like vs MB", clusters: ["C1", "C3"] },
-      { file: "DAPs_C1_vs_C4.csv", label: "EPN-like vs ATRT", clusters: ["C1", "C4"] },
-      { file: "DAPs_C2_vs_C3.csv", label: "Glial vs MB", clusters: ["C2", "C3"] },
-      { file: "DAPs_C2_vs_C4.csv", label: "Glial vs ATRT", clusters: ["C2", "C4"] },
-      { file: "DAPs_C3_vs_C4.csv", label: "MB vs ATRT", clusters: ["C3", "C4"] },
+      { file: "DAPs/DAPs_ATRT_vs_EPN_like.csv", label: "ATRT vs EPN-like", contrast: "ATRT_vs_EPN_like", clusters: ["C4", "C1"] },
+      { file: "DAPs/DAPs_ATRT_vs_Glial.csv", label: "ATRT vs Glial", contrast: "ATRT_vs_Glial", clusters: ["C4", "C2"] },
+      { file: "DAPs/DAPs_ATRT_vs_MB.csv", label: "ATRT vs MB", contrast: "ATRT_vs_MB", clusters: ["C4", "C3"] },
+      { file: "DAPs/DAPs_EPN_like_vs_Glial.csv", label: "EPN-like vs Glial", contrast: "EPN_like_vs_Glial", clusters: ["C1", "C2"] },
+      { file: "DAPs/DAPs_MB_vs_EPN_like.csv", label: "MB vs EPN-like", contrast: "MB_vs_EPN_like", clusters: ["C3", "C1"] },
+      { file: "DAPs/DAPs_MB_vs_Glial.csv", label: "MB vs Glial", contrast: "MB_vs_Glial", clusters: ["C3", "C2"] },
     ];
 
     const dapsStatus = document.getElementById("daps-status");
     const dapsUpSetPlot = document.getElementById("daps-upset-plot");
     const dapsTables = document.getElementById("daps-tables");
+    const dapsContrastTable = document.getElementById("daps-contrast-table");
+    const upsetToggle = document.getElementById("upset-toggle");
+    const upsetBody = document.getElementById("upset-body");
     const upsetFilters = document.getElementById("upset-filters");
     const intersectionTitle = document.getElementById("intersection-title");
     const intersectionMeta = document.getElementById("intersection-meta");
     const intersectionGenes = document.getElementById("intersection-genes");
     let allDapsIntersections = [];
     let activeUpSetFilter = { type: "all", value: "all" };
+    const dapsCardsByFile = new Map();
 
     const parseCsvRows = (text) => {
       const rows = [];
@@ -3451,15 +3956,21 @@
       const rows = parseCsvRows(text);
       const headers = rows[0] || [];
       const geneIndex = headers.findIndex((header) => header.trim().toLowerCase() === "gene");
+      const logFcIndex = headers.findIndex((header) => header.trim().toLowerCase() === "logfc");
 
       if (geneIndex < 0) {
         throw new Error("Um dos arquivos DAPs não possui a coluna Gene");
+      }
+
+      if (logFcIndex < 0) {
+        throw new Error("Um dos arquivos DAPs não possui a coluna logFC");
       }
 
       return {
         headers,
         rows: rows.slice(1),
         geneIndex,
+        logFcIndex,
         genes: new Set(
           rows
             .slice(1)
@@ -3467,6 +3978,41 @@
             .filter((gene) => gene && gene.toUpperCase() !== "NA")
         ),
       };
+    };
+
+    const parseLogFc = (value) => {
+      const normalized = String(value || "").trim().replace(",", ".");
+      const parsed = Number.parseFloat(normalized);
+      return Number.isFinite(parsed) ? parsed : null;
+    };
+
+    const displayDapsHeader = (header) => {
+      const normalized = (header || "").trim().toLowerCase();
+      return normalized === "logfc" ? "Fold Change" : header;
+    };
+
+    const countsBySign = (tableData) => {
+      let positive = 0;
+      let negative = 0;
+      let zero = 0;
+
+      tableData.rows.forEach((row) => {
+        const logFc = parseLogFc(row[tableData.logFcIndex]);
+
+        if (logFc === null) {
+          return;
+        }
+
+        if (logFc > 0) {
+          positive += 1;
+        } else if (logFc < 0) {
+          negative += 1;
+        } else {
+          zero += 1;
+        }
+      });
+
+      return { positive, negative, zero };
     };
 
     const signatureLabel = (signature) => (
@@ -3514,6 +4060,7 @@
     const setContrastStyles = (element, fileConfig) => {
       element.style.setProperty("--cluster-a", clusterColors[fileConfig.clusters[0]]);
       element.style.setProperty("--cluster-b", clusterColors[fileConfig.clusters[1]]);
+      element.style.setProperty("--contrast-color", contrastPalette[fileConfig.contrast] || "#244c73");
     };
 
     const selectIntersection = (rowElement, intersection) => {
@@ -3666,6 +4213,108 @@
       });
     };
 
+    const setCsvFilter = (fileConfig, filterValue) => {
+      const cardState = dapsCardsByFile.get(fileConfig.file);
+
+      if (!cardState) {
+        return;
+      }
+
+      cardState.currentFilter = filterValue;
+      cardState.body.hidden = false;
+      cardState.toggle.setAttribute("aria-expanded", "true");
+      cardState.renderRows(cardState.search.value);
+      cardState.filters.forEach((button) => button.classList.toggle("active", button.dataset.filter === filterValue));
+      cardState.card.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    const renderContrastAccessTable = (tableDataByFile) => {
+      if (!dapsContrastTable) {
+        return;
+      }
+
+      const scroll = document.createElement("div");
+      scroll.className = "contrast-table-scroll";
+
+      const table = document.createElement("table");
+      table.className = "contrast-table";
+
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
+        <tr>
+          <th>Contraste</th>
+          <th>Total de DAPs</th>
+          <th>UP</th>
+          <th>DOWN</th>
+          <th>Acesso rápido</th>
+        </tr>
+      `;
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      dapsFiles.forEach((fileConfig) => {
+        const tableData = tableDataByFile[fileConfig.file];
+        const counts = countsBySign(tableData);
+        const row = document.createElement("tr");
+
+        const contrastCell = document.createElement("td");
+        setContrastStyles(contrastCell, fileConfig);
+        contrastCell.innerHTML = `<span class="contrast-title">${displayNamedContrast(fileConfig.contrast)}</span><span class="contrast-subtitle">${fileConfig.label}</span>`;
+        row.appendChild(contrastCell);
+
+        const totalCell = document.createElement("td");
+        totalCell.className = "contrast-count";
+        totalCell.textContent = String(tableData.rows.length);
+        row.appendChild(totalCell);
+
+        const positiveCell = document.createElement("td");
+        positiveCell.className = "contrast-count is-up";
+        positiveCell.textContent = String(counts.positive);
+        row.appendChild(positiveCell);
+
+        const negativeCell = document.createElement("td");
+        negativeCell.className = "contrast-count is-down";
+        negativeCell.textContent = String(counts.negative);
+        row.appendChild(negativeCell);
+
+        const actionCell = document.createElement("td");
+        const actions = document.createElement("div");
+        actions.className = "contrast-actions";
+
+        [
+          { label: "Abrir lista", value: "all" },
+          { label: "UP", value: "positive" },
+          { label: "DOWN", value: "negative" },
+        ].forEach((action) => {
+          const button = document.createElement("button");
+          button.className = "contrast-chip";
+          button.type = "button";
+          button.textContent = action.label;
+
+          if (action.value === "positive") {
+            button.classList.add("is-up");
+          } else if (action.value === "negative") {
+            button.classList.add("is-down");
+          } else {
+            button.classList.add("is-open");
+            setContrastStyles(button, fileConfig);
+          }
+
+          button.addEventListener("click", () => setCsvFilter(fileConfig, action.value));
+          actions.appendChild(button);
+        });
+
+        actionCell.appendChild(actions);
+        row.appendChild(actionCell);
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+      scroll.appendChild(table);
+      dapsContrastTable.innerHTML = "";
+      dapsContrastTable.appendChild(scroll);
+    };
+
     const renderCsvTable = (fileConfig, tableData) => {
       const card = document.createElement("article");
       card.className = "csv-card";
@@ -3676,6 +4325,7 @@
       toggle.type = "button";
       toggle.setAttribute("aria-expanded", "false");
       toggle.setAttribute("aria-controls", bodyId);
+      setContrastStyles(toggle, fileConfig);
       toggle.innerHTML = `<span class="csv-toggle-title">${fileConfig.label}</span>`;
       card.appendChild(toggle);
 
@@ -3684,22 +4334,66 @@
       body.id = bodyId;
       body.hidden = true;
 
+      const controls = document.createElement("div");
+      controls.className = "csv-controls";
+
+      const downloadLink = document.createElement("a");
+      downloadLink.className = "csv-download-link";
+      downloadLink.href = fileConfig.file;
+      downloadLink.download = "";
+      downloadLink.textContent = "Baixar arquivo deste contraste";
+      setContrastStyles(downloadLink, fileConfig);
+      controls.appendChild(downloadLink);
+
       const search = document.createElement("input");
       search.className = "csv-search";
       search.type = "search";
       search.placeholder = "Buscar gene pelo nome...";
-      body.appendChild(search);
+      controls.appendChild(search);
+
+      const filterGroup = document.createElement("div");
+      filterGroup.className = "csv-filter-group";
+      const resultsMeta = document.createElement("div");
+      resultsMeta.className = "csv-results-meta";
+
+      const filterButtons = [
+        { label: "Todos", value: "all" },
+        { label: "UP", value: "positive" },
+        { label: "DOWN", value: "negative" },
+      ].map((filterConfig) => {
+        const button = document.createElement("button");
+        button.className = "csv-filter";
+        button.type = "button";
+        button.textContent = filterConfig.label;
+        button.dataset.filter = filterConfig.value;
+
+        if (filterConfig.value === "positive") {
+          button.classList.add("is-up");
+        } else if (filterConfig.value === "negative") {
+          button.classList.add("is-down");
+        } else {
+          setContrastStyles(button, fileConfig);
+        }
+
+        filterGroup.appendChild(button);
+        return button;
+      });
+
+      controls.appendChild(filterGroup);
+      controls.appendChild(resultsMeta);
+      body.appendChild(controls);
 
       const scroll = document.createElement("div");
       scroll.className = "csv-table-scroll";
       const table = document.createElement("table");
       table.className = "csv-table";
+      setContrastStyles(table, fileConfig);
 
       const thead = document.createElement("thead");
       const headerRow = document.createElement("tr");
       tableData.headers.forEach((header) => {
         const th = document.createElement("th");
-        th.textContent = header;
+        th.textContent = displayDapsHeader(header);
         headerRow.appendChild(th);
       });
       thead.appendChild(headerRow);
@@ -3711,16 +4405,42 @@
       body.appendChild(scroll);
       card.appendChild(body);
 
+      const cardState = {
+        card,
+        toggle,
+        body,
+        search,
+        filters: filterButtons,
+        currentFilter: "all",
+        renderRows: () => {},
+      };
+
       const renderRows = (query = "") => {
         const normalizedQuery = query.trim().toLowerCase();
-        const filteredRows = normalizedQuery
-          ? tableData.rows.filter((row) => (row[tableData.geneIndex] || "").toLowerCase().includes(normalizedQuery))
-          : tableData.rows;
+        const filteredRows = tableData.rows.filter((row) => {
+          const gene = (row[tableData.geneIndex] || "").toLowerCase();
+          const logFc = parseLogFc(row[tableData.logFcIndex]);
+          const matchesQuery = normalizedQuery ? gene.includes(normalizedQuery) : true;
+          const matchesSign = (
+            cardState.currentFilter === "all"
+            || (cardState.currentFilter === "positive" && logFc !== null && logFc > 0)
+            || (cardState.currentFilter === "negative" && logFc !== null && logFc < 0)
+          );
+          return matchesQuery && matchesSign;
+        });
 
         tbody.innerHTML = "";
         const fragment = document.createDocumentFragment();
         filteredRows.forEach((row) => {
           const tr = document.createElement("tr");
+          const logFc = parseLogFc(row[tableData.logFcIndex]);
+
+          if (logFc !== null && logFc > 0) {
+            tr.classList.add("fc-positive");
+          } else if (logFc !== null && logFc < 0) {
+            tr.classList.add("fc-negative");
+          }
+
           tableData.headers.forEach((_, index) => {
             const td = document.createElement("td");
             td.textContent = row[index] || "";
@@ -3729,20 +4449,38 @@
           fragment.appendChild(tr);
         });
         tbody.appendChild(fragment);
+
+        const labels = {
+          all: "todos os valores de Fold Change",
+          positive: "somente UP",
+          negative: "somente DOWN",
+        };
+        resultsMeta.textContent = `${filteredRows.length} linha(s) exibidas de ${tableData.rows.length}. Filtro atual: ${labels[cardState.currentFilter]}.`;
       };
 
+      cardState.renderRows = renderRows;
+      dapsCardsByFile.set(fileConfig.file, cardState);
+
       search.addEventListener("input", () => renderRows(search.value));
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          cardState.currentFilter = button.dataset.filter;
+          filterButtons.forEach((filterButton) => filterButton.classList.toggle("active", filterButton === button));
+          renderRows(search.value);
+        });
+      });
       toggle.addEventListener("click", () => {
         const isExpanded = toggle.getAttribute("aria-expanded") === "true";
         toggle.setAttribute("aria-expanded", String(!isExpanded));
         body.hidden = isExpanded;
       });
+      filterButtons[0].classList.add("active");
       renderRows();
       return card;
     };
 
     const renderDapsExplorer = async () => {
-      if (!dapsStatus || !dapsUpSetPlot || !dapsTables) {
+      if (!dapsUpSetPlot || !dapsTables) {
         return;
       }
 
@@ -3771,16 +4509,416 @@
 
         dapsTables.innerHTML = "";
         dapsFiles.forEach((fileConfig) => dapsTables.appendChild(renderCsvTable(fileConfig, tableDataByFile[fileConfig.file])));
+        renderContrastAccessTable(tableDataByFile);
 
-        const totalGenes = new Set(intersections.flatMap((intersection) => intersection.genes)).size;
-        const fileList = dapsFiles.map((fileConfig) => fileConfig.file).join(", ");
-        dapsStatus.textContent = `Arquivos localizados: ${fileList}. UpSet plot com ${intersections.length} interseções exclusivas não vazias e ${totalGenes} genes únicos.`;
       } catch (error) {
-        dapsStatus.textContent = `${error.message}. Para carregar o UpSet plot e as tabelas, abra esta página por um servidor local, como o Live Server do VS Code.`;
+        if (dapsStatus) {
+          dapsStatus.textContent = `${error.message}. Para carregar o UpSet plot e as tabelas, abra esta página por um servidor local, como o Live Server do VS Code.`;
+        }
       }
     };
 
     renderDapsExplorer();
+
+    if (upsetToggle && upsetBody) {
+      upsetToggle.style.setProperty("--contrast-color", "#5f4b8b");
+      upsetToggle.addEventListener("click", () => {
+        const isExpanded = upsetToggle.getAttribute("aria-expanded") === "true";
+        upsetToggle.setAttribute("aria-expanded", String(!isExpanded));
+        upsetBody.hidden = isExpanded;
+      });
+    }
+
+    const oraElements = {
+      search: document.getElementById("ora-search"),
+      contrast: document.getElementById("ora-contrast-filter"),
+      database: document.getElementById("ora-database-filter"),
+      direction: document.getElementById("ora-direction-filter"),
+      pathway: document.getElementById("ora-pathway-filter"),
+      gene: document.getElementById("ora-gene-filter"),
+      geneStatus: document.getElementById("ora-gene-status-filter"),
+      clear: document.getElementById("ora-clear-filters"),
+      export: document.getElementById("ora-export-csv"),
+      selectedTitle: document.getElementById("ora-selected-contrast"),
+      body: document.getElementById("ora-table-body"),
+      status: document.getElementById("ora-status"),
+      pageInfo: document.getElementById("ora-page-info"),
+      prev: document.getElementById("ora-prev-page"),
+      next: document.getElementById("ora-next-page"),
+      pageSize: document.getElementById("ora-page-size"),
+      rowsCount: document.getElementById("ora-count-rows"),
+      pathwaysCount: document.getElementById("ora-count-pathways"),
+      genesCount: document.getElementById("ora-count-genes"),
+      upCount: document.getElementById("ora-count-up"),
+      downCount: document.getElementById("ora-count-down"),
+      headers: [...document.querySelectorAll(".ora-table th[data-ora-sort]")],
+    };
+
+    let oraRows = [];
+    let oraFilteredRows = [];
+    let oraSortKey = "p.adjust";
+    let oraSortDirection = "asc";
+    let oraCurrentPage = 1;
+
+    const oraDatabaseClass = (value) => ({
+      Hallmark_MSigDB: "ora-db-hallmark",
+      GO_BP: "ora-db-go",
+      KEGG: "ora-db-kegg",
+      Reactome: "ora-db-reactome",
+    }[value] || "ora-db-go");
+
+    const oraDirectionClass = (value) => (value === "UP" ? "ora-up" : "ora-down");
+
+    const escapeHtml = (value) => String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+    const oraFormatNumber = (value) => {
+      if (value === null || value === undefined || Number.isNaN(value)) {
+        return "-";
+      }
+
+      const absolute = Math.abs(value);
+      if (absolute === 0) {
+        return "0";
+      }
+
+      if (absolute >= 0.001 && absolute < 1000) {
+        return value.toLocaleString("pt-BR", { maximumFractionDigits: 4 });
+      }
+
+      return value.toExponential(2);
+    };
+
+    const oraFdrClass = (value) => {
+      if (value === null || value === undefined || Number.isNaN(value)) {
+        return "";
+      }
+
+      if (value <= 1e-10) {
+        return "fdr-excellent";
+      }
+
+      if (value <= 1e-5) {
+        return "fdr-strong";
+      }
+
+      return "";
+    };
+
+    const oraSortValue = (row, key) => {
+      const value = row[key];
+      return typeof value === "number" ? value : String(value || "").toLowerCase();
+    };
+
+    const oraUpdateSortHeaders = () => {
+      oraElements.headers.forEach((header) => {
+        if (!header.dataset.label) {
+          header.dataset.label = header.textContent;
+        }
+
+        const isActive = header.dataset.oraSort === oraSortKey;
+        header.classList.toggle("sort-active", isActive);
+        header.textContent = `${header.dataset.label}${isActive ? (oraSortDirection === "asc" ? " ↑" : " ↓") : ""}`;
+      });
+    };
+
+    const oraPopulateSelect = (element, values, formatter = (value) => value) => {
+      const current = element.value;
+      const baseOption = element.querySelector("option")?.outerHTML || "";
+      element.innerHTML = baseOption;
+      values.forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = formatter(value);
+        element.appendChild(option);
+      });
+      element.value = current;
+    };
+
+    const oraApplyFilters = () => {
+      const generalQuery = oraElements.search.value.trim().toLowerCase();
+      const pathwayQuery = oraElements.pathway.value.trim().toLowerCase();
+      const geneQuery = oraElements.gene.value.trim().toLowerCase();
+
+      return oraRows.filter((row) => {
+        const haystack = [
+          row.Contrast_clean,
+          row.Database,
+          row.Direction_clean,
+          row.Pathway_summary,
+          row.Gene_clean,
+          row.Gene_status,
+        ].join(" ").toLowerCase();
+
+        if (generalQuery && !haystack.includes(generalQuery)) {
+          return false;
+        }
+
+        if (oraElements.contrast.value && row.Contrast !== oraElements.contrast.value) {
+          return false;
+        }
+
+        if (oraElements.database.value && !(row.Database_list || []).includes(oraElements.database.value)) {
+          return false;
+        }
+
+        if (oraElements.direction.value && !(row.Direction_list || []).includes(oraElements.direction.value)) {
+          return false;
+        }
+
+        if (pathwayQuery && !row.Pathway_summary.toLowerCase().includes(pathwayQuery)) {
+          return false;
+        }
+
+        if (geneQuery && !row.Gene_clean.toLowerCase().includes(geneQuery)) {
+          return false;
+        }
+
+        if (oraElements.geneStatus.value && row.Gene_status !== oraElements.geneStatus.value) {
+          return false;
+        }
+
+        return true;
+      });
+    };
+
+    const oraSortedRows = (rows) => [...rows].sort((first, second) => {
+      const firstValue = oraSortValue(first, oraSortKey);
+      const secondValue = oraSortValue(second, oraSortKey);
+
+      if (typeof firstValue === "number" && typeof secondValue === "number") {
+        const comparison = firstValue - secondValue;
+        return oraSortDirection === "asc" ? comparison : -comparison;
+      }
+
+      const comparison = String(firstValue).localeCompare(String(secondValue), undefined, { sensitivity: "base" });
+      return oraSortDirection === "asc" ? comparison : -comparison;
+    });
+
+    const oraUpdateSummary = (rows) => {
+      const uniquePathways = new Set(rows.flatMap((row) => (row.Pathway_entries || []).map((entry) => `${entry.database}::${entry.pathway}`)));
+      const uniqueGenes = new Set(rows.map((row) => row.Gene_clean));
+      const uniqueUpGenes = new Set(rows.filter((row) => row.Gene_status === "UP").map((row) => row.Gene_clean));
+      const uniqueDownGenes = new Set(rows.filter((row) => row.Gene_status === "DOWN").map((row) => row.Gene_clean));
+
+      oraElements.rowsCount.textContent = rows.length.toLocaleString("pt-BR");
+      oraElements.pathwaysCount.textContent = uniquePathways.size.toLocaleString("pt-BR");
+      oraElements.genesCount.textContent = uniqueGenes.size.toLocaleString("pt-BR");
+      oraElements.upCount.textContent = uniqueUpGenes.size.toLocaleString("pt-BR");
+      oraElements.downCount.textContent = uniqueDownGenes.size.toLocaleString("pt-BR");
+    };
+
+    const oraUpdateSelectedTitle = () => {
+      const selected = oraElements.contrast.value;
+      if (!selected) {
+        oraElements.selectedTitle.textContent = "Todos os contrastes";
+        return;
+      }
+
+      const match = oraRows.find((row) => row.Contrast === selected);
+      oraElements.selectedTitle.textContent = match ? match.Contrast_clean : selected.replace(/_/g, " ");
+    };
+
+    const oraRenderTable = () => {
+      if (!oraElements.body) {
+        return;
+      }
+
+      oraFilteredRows = oraSortedRows(oraApplyFilters());
+      oraUpdateSummary(oraFilteredRows);
+      oraUpdateSelectedTitle();
+      oraUpdateSortHeaders();
+
+      const pageSize = Number.parseInt(oraElements.pageSize.value, 10) || 50;
+      const totalPages = Math.max(1, Math.ceil(oraFilteredRows.length / pageSize));
+      oraCurrentPage = Math.min(Math.max(1, oraCurrentPage), totalPages);
+
+      const start = (oraCurrentPage - 1) * pageSize;
+      const pageRows = oraFilteredRows.slice(start, start + pageSize);
+
+      oraElements.body.innerHTML = pageRows.map((row) => {
+        const rowClass = row.Gene_status === "UP" || (row.logFC !== null && row.logFC > 0) ? "ora-row-up" : "ora-row-down";
+        const geneStatusClass = oraDirectionClass(row.Gene_status);
+        const logfcClass = row.logFC !== null && row.logFC > 0 ? "ora-up" : "ora-down";
+        const pathwayFdrClass = oraFdrClass(row["p.adjust"]);
+        const geneFdrClass = oraFdrClass(row["adj.P.Val"]);
+        const databaseBadges = (row.Database_list || []).map((database) => `<span class="ora-badge ${oraDatabaseClass(database)}">${escapeHtml(database)}</span>`).join(" ");
+        const pathwayList = (row.Pathway_entries || []).map((entry) => `
+          <span class="ora-pathway-chip ${oraDatabaseClass(entry.database)}">
+            <span>${escapeHtml(entry.pathway)}</span>
+          </span>
+        `).join("");
+
+        return `
+          <tr class="${rowClass}">
+            <td>${escapeHtml(row.Contrast_clean)}</td>
+            <td>${databaseBadges}</td>
+            <td class="ora-gene">${escapeHtml(row.Gene_clean)}</td>
+            <td><span class="ora-gene-status ${geneStatusClass}">${escapeHtml(row.Gene_status)}</span></td>
+            <td><span class="ora-logfc ${logfcClass}">${oraFormatNumber(row.logFC)}</span></td>
+            <td><span class="ora-fdr ${geneFdrClass}">${oraFormatNumber(row["adj.P.Val"])}</span></td>
+            <td><span class="ora-fdr ${pathwayFdrClass}">${oraFormatNumber(row["p.adjust"])}</span></td>
+            <td>${(row.Pathway_count || 0).toLocaleString("pt-BR")}</td>
+            <td class="ora-pathway"><div class="ora-pathway-list">${pathwayList}</div></td>
+          </tr>
+        `;
+      }).join("");
+
+      if (!pageRows.length) {
+        oraElements.body.innerHTML = `<tr><td colspan="9">Nenhum resultado encontrado com os filtros atuais.</td></tr>`;
+      }
+
+      const end = Math.min(start + pageRows.length, oraFilteredRows.length);
+      oraElements.pageInfo.textContent = `Página ${oraCurrentPage} de ${totalPages} · ${oraFilteredRows.length.toLocaleString("pt-BR")} linha(s) filtradas · exibindo ${pageRows.length ? `${(start + 1).toLocaleString("pt-BR")}–${end.toLocaleString("pt-BR")}` : "0"}.`;
+      oraElements.prev.disabled = oraCurrentPage === 1;
+      oraElements.next.disabled = oraCurrentPage === totalPages;
+    };
+
+    const oraExportCsv = () => {
+      if (!oraFilteredRows.length) {
+        return;
+      }
+
+      const columns = [
+        ["Contrast_clean", "Contrast"],
+        ["Database", "Database"],
+        ["Gene_clean", "Gene"],
+        ["Gene_status", "Gene_status"],
+        ["logFC", "logFC"],
+        ["adj.P.Val", "adj.P.Val"],
+        ["p.adjust", "p.adjust"],
+        ["Pathway_count", "Pathway_count"],
+        ["Pathway_summary", "Pathways"],
+      ];
+
+      const escapeCsv = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+      const lines = [
+        columns.map(([, label]) => escapeCsv(label)).join(","),
+        ...oraFilteredRows.map((row) => columns.map(([key]) => escapeCsv(row[key])).join(",")),
+      ];
+
+      const blob = new Blob([`\uFEFF${lines.join("\r\n")}`], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "ora_clusterprofiler_filtrado.csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    };
+
+    const oraResetFilters = () => {
+      [
+        oraElements.search,
+        oraElements.pathway,
+        oraElements.gene,
+      ].forEach((element) => {
+        element.value = "";
+      });
+
+      [
+        oraElements.contrast,
+        oraElements.database,
+        oraElements.direction,
+        oraElements.geneStatus,
+      ].forEach((element) => {
+        element.value = "";
+      });
+
+      oraCurrentPage = 1;
+      oraRenderTable();
+    };
+
+    const initOraBrowser = async () => {
+      if (!oraElements.status || !oraElements.body) {
+        return;
+      }
+
+      try {
+        const response = await fetch("enriquecimento-ora-data.json");
+        if (!response.ok) {
+          throw new Error("Não foi possível carregar enriquecimento-ora-data.json");
+        }
+
+        const payload = await response.json();
+        oraRows = (payload.rows || []).map((row) => ({
+          ...row,
+          logFC: typeof row.logFC === "number" ? row.logFC : Number.parseFloat(row.logFC),
+          "adj.P.Val": typeof row["adj.P.Val"] === "number" ? row["adj.P.Val"] : Number.parseFloat(row["adj.P.Val"]),
+          "p.adjust": typeof row["p.adjust"] === "number" ? row["p.adjust"] : Number.parseFloat(row["p.adjust"]),
+          qvalue: typeof row.qvalue === "number" ? row.qvalue : Number.parseFloat(row.qvalue),
+        }));
+
+        oraPopulateSelect(
+          oraElements.contrast,
+          [...new Set(oraRows.map((row) => row.Contrast))].sort(),
+          (value) => oraRows.find((row) => row.Contrast === value)?.Contrast_clean || value.replace(/_/g, " ")
+        );
+        oraPopulateSelect(oraElements.database, [...new Set(oraRows.flatMap((row) => row.Database_list || []))].sort());
+
+        [
+          oraElements.search,
+          oraElements.pathway,
+          oraElements.gene,
+        ].forEach((element) => {
+          element.addEventListener("input", () => {
+            oraCurrentPage = 1;
+            oraRenderTable();
+          });
+        });
+
+        [
+          oraElements.contrast,
+          oraElements.database,
+          oraElements.direction,
+          oraElements.geneStatus,
+          oraElements.pageSize,
+        ].forEach((element) => {
+          element.addEventListener("change", () => {
+            oraCurrentPage = 1;
+            oraRenderTable();
+          });
+        });
+
+        oraElements.clear.addEventListener("click", oraResetFilters);
+        oraElements.export.addEventListener("click", oraExportCsv);
+        oraElements.prev.addEventListener("click", () => {
+          oraCurrentPage = Math.max(1, oraCurrentPage - 1);
+          oraRenderTable();
+        });
+        oraElements.next.addEventListener("click", () => {
+          oraCurrentPage += 1;
+          oraRenderTable();
+        });
+
+        oraElements.headers.forEach((header) => {
+          header.dataset.label = header.textContent;
+          header.addEventListener("click", () => {
+            const nextKey = header.dataset.oraSort;
+            if (oraSortKey === nextKey) {
+              oraSortDirection = oraSortDirection === "asc" ? "desc" : "asc";
+            } else {
+              oraSortKey = nextKey;
+              oraSortDirection = "asc";
+            }
+            oraCurrentPage = 1;
+            oraRenderTable();
+          });
+        });
+
+        oraElements.status.textContent = `Arquivo ORA carregado com ${oraRows.length.toLocaleString("pt-BR")} linhas a partir de ${payload.sheet || "01_gene_pathway_long"}.`;
+        oraRenderTable();
+      } catch (error) {
+        oraElements.status.textContent = `${error.message}. Abra esta página por um servidor local para carregar o arquivo JSON derivado do XLSX.`;
+      }
+    };
+
+    initOraBrowser();
 
     const wgcnaEnrichmentFiles = [
       "Enrichment_GO_BP_blue.csv",
@@ -4749,6 +5887,7 @@
     const overlapFiles = {
       csv: "proteinas_comuns_UP_DOWN_por_diagnostico.csv",
       xlsx: "Cruzamento_plasma_brain_CSF_genes_comuns_UP_DOWN.xlsx",
+      json: "intersecao-overlap-data.json",
       plot: "barplot_overlap_UP_DOWN_por_diagnostico.png",
     };
 
@@ -4783,7 +5922,19 @@
     );
 
     const summarySortValue = (row, key) => {
-      if (["N_up_comuns", "N_down_comuns", "contrastCount", "totalGenes"].includes(key)) {
+      if ([
+        "N_up_comuns",
+        "N_down_comuns",
+        "contrastCount",
+        "totalGenes",
+        "N_genes_lista_total",
+        "N_plasma_total",
+        "N_secreted_to_brain_total",
+        "N_CSF_total",
+        "N_em_pelo_menos_1_base_total",
+        "N_em_2_ou_mais_bases_total",
+        "N_em_3_bases_total",
+      ].includes(key)) {
         return Number(row[key] || 0);
       }
       return (row[key] || "").toString().toLowerCase();
@@ -4792,6 +5943,9 @@
     const overlapGeneSortValue = (row, key) => {
       if (key === "Direction") {
         return row.Direction === "UP" ? 0 : 1;
+      }
+      if (["N_fontes_positivas"].includes(key)) {
+        return Number(row[key] || 0);
       }
       return (row[key] || "").toString().toLowerCase();
     };
@@ -4864,7 +6018,42 @@
         const totalCell = document.createElement("td");
         totalCell.textContent = row.totalGenes;
 
-        tr.append(diagnosisCell, contrastsCell, contrastCountCell, upCell, downCell, totalCell);
+        const listSizeCell = document.createElement("td");
+        listSizeCell.textContent = row.N_genes_lista_total || 0;
+
+        const plasmaCell = document.createElement("td");
+        plasmaCell.textContent = row.N_plasma_total || 0;
+
+        const brainCell = document.createElement("td");
+        brainCell.textContent = row.N_secreted_to_brain_total || 0;
+
+        const csfCell = document.createElement("td");
+        csfCell.textContent = row.N_CSF_total || 0;
+
+        const oneBaseCell = document.createElement("td");
+        oneBaseCell.textContent = row.N_em_pelo_menos_1_base_total || 0;
+
+        const twoBasesCell = document.createElement("td");
+        twoBasesCell.textContent = row.N_em_2_ou_mais_bases_total || 0;
+
+        const threeBasesCell = document.createElement("td");
+        threeBasesCell.textContent = row.N_em_3_bases_total || 0;
+
+        tr.append(
+          diagnosisCell,
+          contrastsCell,
+          contrastCountCell,
+          upCell,
+          downCell,
+          totalCell,
+          listSizeCell,
+          plasmaCell,
+          brainCell,
+          csfCell,
+          oneBaseCell,
+          twoBasesCell,
+          threeBasesCell
+        );
         fragment.appendChild(tr);
       });
 
@@ -4935,7 +6124,7 @@
       const selectedDiagnosis = diagnosis.value;
       const selectedDirection = direction.value;
       const filteredRows = overlapGeneRows.filter((row) => {
-        const queryText = `${row.Diagnostico} ${diagnosisLabel(row.Diagnostico)} ${row.Direction} ${row.Gene} ${row.Contrastes}`.toLowerCase();
+        const queryText = `${row.Diagnostico} ${diagnosisLabel(row.Diagnostico)} ${row.Direction} ${row.Gene} ${row.Lista} ${row.Contrastes} ${row.Plasma} ${row.Secreted_to_brain} ${row.CSF} ${row.Categoria_intersecao}`.toLowerCase();
         return (!query || queryText.includes(query)) &&
           (!selectedDiagnosis || row.Diagnostico === selectedDiagnosis) &&
           (!selectedDirection || row.Direction === selectedDirection);
@@ -4970,10 +6159,32 @@
         geneCell.className = "biomarker-gene";
         geneCell.textContent = row.Gene;
 
+        const listCell = document.createElement("td");
+        listCell.textContent = row.Lista;
+
         const contrastsCell = document.createElement("td");
         contrastsCell.textContent = row.Contrastes;
 
-        tr.append(diagnosisCell, directionCell, geneCell, contrastsCell);
+        const plasmaCell = document.createElement("td");
+        plasmaCell.className = `biomarker-presence ${row.Plasma === "Sim" ? "yes" : "no"}`;
+        plasmaCell.textContent = row.Plasma || "-";
+
+        const brainCell = document.createElement("td");
+        brainCell.className = `biomarker-presence ${row.Secreted_to_brain === "Sim" ? "yes" : "no"}`;
+        brainCell.textContent = row.Secreted_to_brain || "-";
+
+        const csfCell = document.createElement("td");
+        csfCell.className = `biomarker-presence ${row.CSF === "Sim" ? "yes" : "no"}`;
+        csfCell.textContent = row.CSF || "-";
+
+        const sourceCountCell = document.createElement("td");
+        sourceCountCell.textContent = row.N_fontes_positivas ?? 0;
+
+        const categoryCell = document.createElement("td");
+        categoryCell.className = "biomarker-category";
+        categoryCell.textContent = row.Categoria_intersecao || "-";
+
+        tr.append(diagnosisCell, directionCell, geneCell, listCell, contrastsCell, plasmaCell, brainCell, csfCell, sourceCountCell, categoryCell);
         fragment.appendChild(tr);
       });
 
@@ -4989,60 +6200,35 @@
       }
 
       try {
-        const response = await fetch(overlapFiles.csv);
+        const response = await fetch(overlapFiles.json);
 
         if (!response.ok) {
-          throw new Error(`Não foi possível carregar ${overlapFiles.csv}`);
+          throw new Error(`Não foi possível carregar ${overlapFiles.json}`);
         }
 
-        const text = await response.text();
-        const rows = parseCsvRows(text);
+        const payload = await response.json();
 
-        if (rows.length < 2) {
-          throw new Error(`O arquivo ${overlapFiles.csv} não contém linhas suficientes`);
-        }
+        overlapSummaryRows = (payload.summary || []).map((row) => ({
+          ...row,
+          N_up_comuns: Number(row.N_up_comuns || 0),
+          N_down_comuns: Number(row.N_down_comuns || 0),
+          contrastCount: Number(row.contrastCount || 0),
+          totalGenes: Number(row.totalGenes || 0),
+          N_genes_lista_total: Number(row.N_genes_lista_total || 0),
+          N_plasma_total: Number(row.N_plasma_total || 0),
+          N_secreted_to_brain_total: Number(row.N_secreted_to_brain_total || 0),
+          N_CSF_total: Number(row.N_CSF_total || 0),
+          N_em_pelo_menos_1_base_total: Number(row.N_em_pelo_menos_1_base_total || 0),
+          N_em_2_ou_mais_bases_total: Number(row.N_em_2_ou_mais_bases_total || 0),
+          N_em_3_bases_total: Number(row.N_em_3_bases_total || 0),
+          upGenes: Array.isArray(row.upGenes) ? row.upGenes : [],
+          downGenes: Array.isArray(row.downGenes) ? row.downGenes : [],
+        }));
 
-        const headers = rows[0];
-        const dataRows = rows.slice(1).map((row) => Object.fromEntries(
-          headers.map((header, index) => [header, row[index] || ""])
-        ));
-
-        overlapSummaryRows = dataRows.map((row) => {
-          const upGenes = splitSemicolonList(row.Genes_up);
-          const downGenes = splitSemicolonList(row.Genes_down);
-          const contrastCount = (row.Contrastes || "")
-            .split("|")
-            .map((item) => item.trim())
-            .filter(Boolean)
-            .length;
-
-          return {
-            ...row,
-            N_up_comuns: Number(row.N_up_comuns || 0),
-            N_down_comuns: Number(row.N_down_comuns || 0),
-            contrastCount,
-            totalGenes: upGenes.length + downGenes.length,
-            upGenes,
-            downGenes,
-          };
-        });
-
-        overlapGeneRows = overlapSummaryRows.flatMap((row) => (
-          [
-            ...row.upGenes.map((gene) => ({
-              Diagnostico: row.Diagnostico,
-              Direction: "UP",
-              Gene: gene,
-              Contrastes: row.Contrastes,
-            })),
-            ...row.downGenes.map((gene) => ({
-              Diagnostico: row.Diagnostico,
-              Direction: "DOWN",
-              Gene: gene,
-              Contrastes: row.Contrastes,
-            })),
-          ]
-        ));
+        overlapGeneRows = (payload.genes || []).map((row) => ({
+          ...row,
+          N_fontes_positivas: Number(row.N_fontes_positivas || 0),
+        }));
 
         populateOverlapSummaryCards();
         populateOverlapDiagnosisFilter();

@@ -1,0 +1,26 @@
+"","ATRT_vs_EPN_like","ATRT_vs_Glial","MB_vs_EPN_like","MB_vs_Glial","ATRT_vs_MB","EPN_like_vs_Glial"
+"Processing of Capped Intron-Containing Pre-mRNA",0,0,4.99159304198756,8,-8,0
+"mRNA Splicing",0,0,3.47857244052089,8,-8,0
+"mRNA Splicing - Major Pathway",0,0,3.47857244052089,8,-8,0
+"Epigenetic regulation of gene expression",0,0,8,8,-8,0
+"mRNA 3'-end processing",0,0,3.22971343092833,8,-8,0
+"RNA Polymerase II Transcription",0,0,8,8,-8,0
+"Chromatin organization",0,0,8,8,-8,0
+"rRNA modification in the nucleus and cytosol",8,8,8,8,0,0
+"rRNA processing in the nucleus and cytosol",8,8,8,8,0,0
+"rRNA processing",8,8,8,8,0,0
+"Major pathway of rRNA processing in the nucleolus and cytosol",8,8,8,8,0,0
+"DNA strand elongation",2.84372052032516,7.06891784562466,6.77049433671715,8,0,0
+"Positive epigenetic regulation of rRNA expression",0,1.46001294479471,8,8,-5.7400432745866,0
+"Activation of the pre-replicative complex",5.22303477477848,5.42241422259802,5.96589154969897,7.51562774372306,0,0
+"Activation of ATR in response to replication stress",2.56595899257619,4.91985360843891,7.42255556597294,8,0,0
+"Cilium Assembly",-8,-1.62279532828242,-5.68400387720944,0,0,4.68759398717339
+"RNA Polymerase I Transcription Initiation",0,2.87385932340187,5.44981383690897,8,-3.48067141780023,0
+"RNA Polymerase I Promoter Clearance",0,2.14461417724881,4.77616421787074,8,-4.56196612168447,0
+"RNA Polymerase I Transcription",0,2.08557506855974,4.58149828917663,8,-4.39697389635015,0
+"Transmission across Chemical Synapses",-2.06100701511447,-8,0,-4.1404917047045,0,-1.34467433819784
+"Negative epigenetic regulation of rRNA expression",0,2.46288784599243,3.97268624560854,8,-2.3728405240245,0
+"NoRC negatively regulates rRNA expression",0,2.08557506855974,3.61654597509013,8,-2.06860188300043,0
+"Unwinding of DNA",5.27587309767683,4.82031699511897,3.97578738887939,3.67640341061784,-2.78984265857382,0
+"G alpha (i) signalling events",-2.16801293716934,-2.00895960802873,0,-1.78924360943419,0,-1.59438998011203
+"Extracellular matrix organization",1.69863784624748,0,0,-1.46508479250381,2.1878119027666,-2.04477804906355

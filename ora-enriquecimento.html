@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabela ORA por Contraste</title>
+  <style>
+    :root {
+      --ink: #182337;
+      --ink-soft: #4a5a73;
+      --paper: #f6f8fb;
+      --panel: #ffffff;
+      --line: rgba(24, 35, 55, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(180deg, #edf4fb 0%, #f9fbfd 100%);
+      color: var(--ink);
+    }
+
+    .page {
+      width: min(2200px, calc(100% - 24px));
+      margin: 24px auto 40px;
+    }
+
+    .hero {
+      padding: 24px 28px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 18px 40px rgba(24, 35, 55, 0.08);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.4rem, 2.2vw, 2rem);
+      line-height: 1.15;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      text-decoration: none;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      background: #eef3ff;
+      border-color: rgba(95, 75, 139, 0.35);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      border-color: rgba(122, 38, 93, 0.34);
+      background: linear-gradient(135deg, rgba(255, 232, 244, 0.96), rgba(240, 244, 255, 0.96));
+      color: #7a265d;
+    }
+
+    .browser {
+      margin-top: 20px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 18px 40px rgba(24, 35, 55, 0.08);
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #f3f8fd 0%, #ffffff 100%);
+    }
+
+    .summary-value {
+      display: block;
+      font-size: 1.3rem;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .summary-label {
+      display: block;
+      margin-top: 5px;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .controls input,
+    .controls select {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.92rem;
+      font-weight: 650;
+    }
+
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .selected-title {
+      margin: 14px 0 10px;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .contrast-name {
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .table {
+      width: 100%;
+      min-width: 1360px;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+
+    .table th,
+    .table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(24, 35, 55, 0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #edf4fb;
+      font-weight: 900;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .table th.sort-active {
+      color: #5f4b8b;
+    }
+
+    .row-up {
+      background: rgba(113, 194, 98, 0.14);
+    }
+
+    .row-down {
+      background: rgba(240, 120, 120, 0.13);
+    }
+
+    .badge,
+    .direction,
+    .gene-status,
+    .logfc {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 900;
+      line-height: 1.2;
+      white-space: nowrap;
+      margin: 0 6px 6px 0;
+    }
+
+    .db-hallmark { background: rgba(176, 74, 0, 0.16); color: #8a3400; }
+    .db-go { background: rgba(47, 107, 47, 0.16); color: #245924; }
+    .db-kegg { background: rgba(106, 63, 181, 0.16); color: #4d2d85; }
+    .db-reactome { background: rgba(31, 95, 139, 0.16); color: #1f496a; }
+
+    .up { background: rgba(113, 194, 98, 0.2); color: #236b1d; }
+    .down { background: rgba(235, 91, 91, 0.18); color: #a32727; }
+
+    .gene {
+      font-weight: 850;
+    }
+
+    .pathway-cell {
+      min-width: 440px;
+      line-height: 1.45;
+    }
+
+    .pathway-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .pathway-chip {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 780;
+      line-height: 1.35;
+    }
+
+    .pathway-chip.db-hallmark { background: rgba(176, 74, 0, 0.12); color: #8a3400; }
+    .pathway-chip.db-go { background: rgba(47, 107, 47, 0.12); color: #245924; }
+    .pathway-chip.db-kegg { background: rgba(106, 63, 181, 0.12); color: #4d2d85; }
+    .pathway-chip.db-reactome { background: rgba(31, 95, 139, 0.12); color: #1f496a; }
+
+    .fdr {
+      font-weight: 820;
+    }
+
+    .fdr-excellent {
+      color: #0a6c3f;
+      background: rgba(35, 122, 59, 0.14);
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    .fdr-strong {
+      color: #8a3400;
+      background: rgba(176, 74, 0, 0.14);
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    .pagination {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 14px;
+      align-items: center;
+    }
+
+    .page-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .page-info,
+    .status {
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+      font-weight: 780;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <h1>Tabela ORA por Contraste</h1>
+      <p>Cada linha representa um gene em um contraste. Se o gene aparecer em mais de uma via enriquecida, as vias ficam agrupadas na mesma linha com indicação do banco de origem.</p>
+      <div class="actions">
+        <a class="button" href="tratamento-analise-estatistica.html">Voltar para a página principal</a>
+        <a class="button button-primary" href="#table-body">Ir direto para a tabela</a>
+      </div>
+    </section>
+
+    <section class="browser">
+      <div class="summary">
+        <article class="summary-card"><span class="summary-value" id="count-rows">-</span><span class="summary-label">Linhas filtradas</span></article>
+        <article class="summary-card"><span class="summary-value" id="count-pathways">-</span><span class="summary-label">Vias únicas</span></article>
+        <article class="summary-card"><span class="summary-value" id="count-genes">-</span><span class="summary-label">Genes únicos</span></article>
+        <article class="summary-card"><span class="summary-value" id="count-up">-</span><span class="summary-label">Genes UP</span></article>
+        <article class="summary-card"><span class="summary-value" id="count-down">-</span><span class="summary-label">Genes DOWN</span></article>
+      </div>
+
+      <div class="controls">
+        <input id="search" type="search" placeholder="Busca geral por contraste, via, gene ou banco...">
+        <select id="contrast-filter"><option value="">Todos os contrastes</option></select>
+        <select id="database-filter"><option value="">Todos os bancos</option></select>
+        <select id="direction-filter">
+          <option value="">Todas as direções da via</option>
+          <option value="UP">UP</option>
+          <option value="DOWN">DOWN</option>
+        </select>
+        <select id="pathway-filter" disabled><option value="">Filtrar por via</option></select>
+        <input id="gene-filter" type="search" placeholder="Filtrar por gene...">
+        <select id="gene-status-filter">
+          <option value="">Gene UP e DOWN</option>
+          <option value="UP">Gene UP</option>
+          <option value="DOWN">Gene DOWN</option>
+        </select>
+      </div>
+
+      <div class="controls-row">
+        <button class="button" id="clear-filters" type="button">Limpar filtros</button>
+        <button class="button" id="export-csv" type="button">Exportar CSV filtrado</button>
+      </div>
+
+      <h2 class="selected-title" id="selected-contrast">Todos os contrastes</h2>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th data-sort="Contrast_clean">Contraste</th>
+              <th data-sort="Database">Banco</th>
+              <th data-sort="Gene_clean">Gene</th>
+              <th data-sort="Gene_status">Gene UP/DOWN</th>
+              <th data-sort="logFC">Fold Change</th>
+              <th data-sort="adj.P.Val">adj.P.Val</th>
+              <th data-sort="p.adjust">p.adjust</th>
+              <th data-sort="Pathway_count">Nº de vias</th>
+              <th data-sort="Pathway_summary">Vias enriquecidas</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <div class="page-group">
+          <button class="button" id="prev-page" type="button">Anterior</button>
+          <button class="button" id="next-page" type="button">Próxima</button>
+          <select id="page-size">
+            <option value="25">25 linhas</option>
+            <option value="50" selected>50 linhas</option>
+            <option value="100">100 linhas</option>
+          </select>
+        </div>
+        <div class="page-info" id="page-info">Carregando tabela ORA...</div>
+      </div>
+
+      <p class="status" id="status">Carregando resultados ORA...</p>
+    </section>
+  </main>
+
+  <script>
+    const elements = {
+      search: document.getElementById("search"),
+      contrast: document.getElementById("contrast-filter"),
+      database: document.getElementById("database-filter"),
+      direction: document.getElementById("direction-filter"),
+      pathway: document.getElementById("pathway-filter"),
+      gene: document.getElementById("gene-filter"),
+      geneStatus: document.getElementById("gene-status-filter"),
+      clear: document.getElementById("clear-filters"),
+      export: document.getElementById("export-csv"),
+      selectedTitle: document.getElementById("selected-contrast"),
+      body: document.getElementById("table-body"),
+      status: document.getElementById("status"),
+      pageInfo: document.getElementById("page-info"),
+      prev: document.getElementById("prev-page"),
+      next: document.getElementById("next-page"),
+      pageSize: document.getElementById("page-size"),
+      rowsCount: document.getElementById("count-rows"),
+      pathwaysCount: document.getElementById("count-pathways"),
+      genesCount: document.getElementById("count-genes"),
+      upCount: document.getElementById("count-up"),
+      downCount: document.getElementById("count-down"),
+      headers: [...document.querySelectorAll(".table th[data-sort]")],
+    };
+
+    let rows = [];
+    let filteredRows = [];
+    let sortKey = "p.adjust";
+    let sortDirection = "asc";
+    let currentPage = 1;
+    const contrastColors = {
+      ATRT_vs_EPN_like: "#8f2d56",
+      ATRT_vs_Glial: "#1f5f8b",
+      ATRT_vs_MB: "#b04a00",
+      EPN_like_vs_Glial: "#2f6b2f",
+      MB_vs_EPN_like: "#6a3fb5",
+      MB_vs_Glial: "#9a8c00",
+    };
+
+    const databaseClass = (value) => ({
+      Hallmark_MSigDB: "db-hallmark",
+      GO_BP: "db-go",
+      KEGG: "db-kegg",
+      Reactome: "db-reactome",
+    }[value] || "db-go");
+
+    const contrastColor = (value) => contrastColors[value] || "#244c73";
+
+    const directionClass = (value) => value === "UP" ? "up" : "down";
+
+    const escapeHtml = (value) => String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+    const formatNumber = (value) => {
+      if (value === null || value === undefined || Number.isNaN(value)) return "-";
+      const absolute = Math.abs(value);
+      if (absolute === 0) return "0";
+      if (absolute >= 0.001 && absolute < 1000) {
+        return value.toLocaleString("pt-BR", { maximumFractionDigits: 4 });
+      }
+      return value.toExponential(2);
+    };
+
+    const fdrClass = (value) => {
+      if (value === null || value === undefined || Number.isNaN(value)) return "";
+      if (value <= 1e-10) return "fdr-excellent";
+      if (value <= 1e-5) return "fdr-strong";
+      return "";
+    };
+
+    const sortValue = (row, key) => {
+      const value = row[key];
+      return typeof value === "number" ? value : String(value || "").toLowerCase();
+    };
+
+    const updateHeaders = () => {
+      elements.headers.forEach((header) => {
+        if (!header.dataset.label) header.dataset.label = header.textContent;
+        const active = header.dataset.sort === sortKey;
+        header.classList.toggle("sort-active", active);
+        header.textContent = `${header.dataset.label}${active ? (sortDirection === "asc" ? " ↑" : " ↓") : ""}`;
+      });
+    };
+
+    const populateSelect = (element, values, formatter = (value) => value) => {
+      const current = element.value;
+      const first = element.querySelector("option")?.outerHTML || "";
+      element.innerHTML = first;
+      values.forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = formatter(value);
+        element.appendChild(option);
+      });
+      element.value = current;
+    };
+
+    const visibleEntries = (row) => {
+      let entries = [...(row.Pathway_entries || [])];
+      if (elements.database.value) {
+        entries = entries.filter((entry) => entry.database === elements.database.value);
+      }
+      if (elements.direction.value) {
+        entries = entries.filter((entry) => entry.direction === elements.direction.value);
+      }
+      if (elements.pathway.value) {
+        entries = entries.filter((entry) => entry.pathway === elements.pathway.value);
+      }
+      return entries;
+    };
+
+    const updatePathwayOptions = () => {
+      const selectedDatabase = elements.database.value;
+      const selectedDirection = elements.direction.value;
+      const selectedContrast = elements.contrast.value;
+      const baseOption = `<option value="">Filtrar por via</option>`;
+
+      if (!selectedDatabase) {
+        elements.pathway.innerHTML = baseOption;
+        elements.pathway.value = "";
+        elements.pathway.disabled = true;
+        return;
+      }
+
+      const pathways = [...new Set(
+        rows
+          .filter((row) => !selectedContrast || row.Contrast === selectedContrast)
+          .flatMap((row) => row.Pathway_entries || [])
+          .filter((entry) => entry.database === selectedDatabase)
+          .filter((entry) => !selectedDirection || entry.direction === selectedDirection)
+          .map((entry) => entry.pathway)
+      )].sort((a, b) => a.localeCompare(b, "pt-BR"));
+
+      const current = elements.pathway.value;
+      elements.pathway.innerHTML = baseOption;
+      pathways.forEach((pathway) => {
+        const option = document.createElement("option");
+        option.value = pathway;
+        option.textContent = pathway;
+        elements.pathway.appendChild(option);
+      });
+      elements.pathway.disabled = pathways.length === 0;
+      elements.pathway.value = pathways.includes(current) ? current : "";
+    };
+
+    const applyFilters = () => {
+      const general = elements.search.value.trim().toLowerCase();
+      const gene = elements.gene.value.trim().toLowerCase();
+
+      return rows.filter((row) => {
+        const entries = visibleEntries(row);
+        const haystack = [
+          row.Contrast_clean,
+          row.Database,
+          entries.map((entry) => entry.pathway).join(" "),
+          row.Gene_clean,
+          row.Gene_status,
+        ].join(" ").toLowerCase();
+
+        if (general && !haystack.includes(general)) return false;
+        if (elements.contrast.value && row.Contrast !== elements.contrast.value) return false;
+        if (gene && !row.Gene_clean.toLowerCase().includes(gene)) return false;
+        if (elements.geneStatus.value && row.Gene_status !== elements.geneStatus.value) return false;
+        if (!entries.length) return false;
+        return true;
+      });
+    };
+
+    const sortRows = (input) => [...input].sort((a, b) => {
+      const first = sortValue(a, sortKey);
+      const second = sortValue(b, sortKey);
+      if (typeof first === "number" && typeof second === "number") {
+        const comparison = first - second;
+        return sortDirection === "asc" ? comparison : -comparison;
+      }
+      const comparison = String(first).localeCompare(String(second), undefined, { sensitivity: "base" });
+      return sortDirection === "asc" ? comparison : -comparison;
+    });
+
+    const updateSummary = (input) => {
+      const pathways = new Set(input.flatMap((row) => visibleEntries(row).map((entry) => `${entry.database}::${entry.pathway}`)));
+      const genes = new Set(input.map((row) => row.Gene_clean));
+      const up = new Set(input.filter((row) => row.Gene_status === "UP").map((row) => row.Gene_clean));
+      const down = new Set(input.filter((row) => row.Gene_status === "DOWN").map((row) => row.Gene_clean));
+      elements.rowsCount.textContent = input.length.toLocaleString("pt-BR");
+      elements.pathwaysCount.textContent = pathways.size.toLocaleString("pt-BR");
+      elements.genesCount.textContent = genes.size.toLocaleString("pt-BR");
+      elements.upCount.textContent = up.size.toLocaleString("pt-BR");
+      elements.downCount.textContent = down.size.toLocaleString("pt-BR");
+    };
+
+    const updateSelectedTitle = () => {
+      if (!elements.contrast.value) {
+        elements.selectedTitle.textContent = "Todos os contrastes";
+        elements.selectedTitle.style.color = "var(--ink)";
+        return;
+      }
+      const match = rows.find((row) => row.Contrast === elements.contrast.value);
+      elements.selectedTitle.textContent = match ? match.Contrast_clean : elements.contrast.value.replace(/_/g, " ");
+      elements.selectedTitle.style.color = contrastColor(elements.contrast.value);
+    };
+
+    const render = () => {
+      filteredRows = sortRows(applyFilters());
+      updateSummary(filteredRows);
+      updateSelectedTitle();
+      updateHeaders();
+
+      const pageSize = Number.parseInt(elements.pageSize.value, 10) || 50;
+      const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+      currentPage = Math.min(Math.max(1, currentPage), totalPages);
+      const start = (currentPage - 1) * pageSize;
+      const pageRows = filteredRows.slice(start, start + pageSize);
+
+      elements.body.innerHTML = pageRows.map((row) => {
+        const entries = visibleEntries(row);
+        const rowClass = row.Gene_status === "UP" || (row.logFC !== null && row.logFC > 0) ? "row-up" : "row-down";
+        const visibleDatabases = [...new Set(entries.map((entry) => entry.database))];
+        const dbBadges = visibleDatabases.map((db) => `<span class="badge ${databaseClass(db)}">${escapeHtml(db)}</span>`).join("");
+        const pathways = entries.map((entry) => `
+          <span class="pathway-chip ${databaseClass(entry.database)}">
+            <span>${escapeHtml(entry.pathway)}</span>
+          </span>
+        `).join("");
+        return `
+          <tr class="${rowClass}">
+            <td><span class="contrast-name" style="color: ${escapeHtml(contrastColor(row.Contrast))};">${escapeHtml(row.Contrast_clean)}</span></td>
+            <td>${dbBadges}</td>
+            <td class="gene">${escapeHtml(row.Gene_clean)}</td>
+            <td><span class="gene-status ${directionClass(row.Gene_status)}">${escapeHtml(row.Gene_status)}</span></td>
+            <td><span class="logfc ${row.logFC !== null && row.logFC > 0 ? "up" : "down"}">${formatNumber(row.logFC)}</span></td>
+            <td><span class="fdr ${fdrClass(row["adj.P.Val"])}">${formatNumber(row["adj.P.Val"])}</span></td>
+            <td><span class="fdr ${fdrClass(Math.min(...entries.map((entry) => entry["p.adjust"]).filter((value) => Number.isFinite(value)), row["p.adjust"]))}">${formatNumber(Math.min(...entries.map((entry) => entry["p.adjust"]).filter((value) => Number.isFinite(value)), row["p.adjust"]))}</span></td>
+            <td>${entries.length.toLocaleString("pt-BR")}</td>
+            <td class="pathway-cell"><div class="pathway-list">${pathways}</div></td>
+          </tr>
+        `;
+      }).join("");
+
+      if (!pageRows.length) {
+        elements.body.innerHTML = `<tr><td colspan="9">Nenhum resultado encontrado com os filtros atuais.</td></tr>`;
+      }
+
+      const end = Math.min(start + pageRows.length, filteredRows.length);
+      elements.pageInfo.textContent = `Página ${currentPage} de ${totalPages} · ${filteredRows.length.toLocaleString("pt-BR")} linha(s) filtradas · exibindo ${pageRows.length ? `${(start + 1).toLocaleString("pt-BR")}–${end.toLocaleString("pt-BR")}` : "0"}.`;
+      elements.prev.disabled = currentPage === 1;
+      elements.next.disabled = currentPage === totalPages;
+    };
+
+    const exportCsv = () => {
+      if (!filteredRows.length) return;
+      const columns = [
+        ["Contrast_clean", "Contrast"],
+        ["Database", "Database"],
+        ["Gene_clean", "Gene"],
+        ["Gene_status", "Gene_status"],
+        ["logFC", "logFC"],
+        ["adj.P.Val", "adj.P.Val"],
+        ["p.adjust", "p.adjust"],
+        ["Pathway_count", "Pathway_count"],
+        ["Pathway_summary", "Pathways"],
+      ];
+      const esc = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+      const lines = [
+        columns.map(([, label]) => esc(label)).join(","),
+        ...filteredRows.map((row) => {
+          const entries = visibleEntries(row);
+          const exportRow = {
+            ...row,
+            Database: [...new Set(entries.map((entry) => entry.database))].join(" | "),
+            Pathway_summary: entries.map((entry) => entry.pathway).join(" | "),
+            Pathway_count: entries.length,
+          };
+          return columns.map(([key]) => esc(exportRow[key])).join(",");
+        }),
+      ];
+      const blob = new Blob([`\uFEFF${lines.join("\r\n")}`], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "ora_clusterprofiler_filtrado.csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    };
+
+    const resetFilters = () => {
+      [elements.search, elements.pathway, elements.gene].forEach((element) => { element.value = ""; });
+      [elements.contrast, elements.database, elements.direction, elements.geneStatus].forEach((element) => { element.value = ""; });
+      updatePathwayOptions();
+      currentPage = 1;
+      render();
+    };
+
+    const init = async () => {
+      try {
+        const response = await fetch("enriquecimento-ora-data.json");
+        if (!response.ok) throw new Error("Não foi possível carregar enriquecimento-ora-data.json");
+        const payload = await response.json();
+        rows = (payload.rows || []).map((row) => ({
+          ...row,
+          logFC: typeof row.logFC === "number" ? row.logFC : Number.parseFloat(row.logFC),
+          "adj.P.Val": typeof row["adj.P.Val"] === "number" ? row["adj.P.Val"] : Number.parseFloat(row["adj.P.Val"]),
+          "p.adjust": typeof row["p.adjust"] === "number" ? row["p.adjust"] : Number.parseFloat(row["p.adjust"]),
+        }));
+
+        populateSelect(elements.contrast, [...new Set(rows.map((row) => row.Contrast))].sort(), (value) => rows.find((row) => row.Contrast === value)?.Contrast_clean || value.replace(/_/g, " "));
+        populateSelect(elements.database, [...new Set(rows.flatMap((row) => row.Database_list || []))].sort());
+        updatePathwayOptions();
+
+        [elements.search, elements.pathway, elements.gene].forEach((element) => {
+          element.addEventListener("input", () => {
+            currentPage = 1;
+            render();
+          });
+        });
+
+        [elements.contrast, elements.database, elements.direction, elements.geneStatus, elements.pageSize].forEach((element) => {
+          element.addEventListener("change", () => {
+            if (element === elements.contrast || element === elements.database || element === elements.direction) {
+              updatePathwayOptions();
+            }
+            currentPage = 1;
+            render();
+          });
+        });
+
+        elements.clear.addEventListener("click", resetFilters);
+        elements.export.addEventListener("click", exportCsv);
+        elements.prev.addEventListener("click", () => {
+          currentPage = Math.max(1, currentPage - 1);
+          render();
+        });
+        elements.next.addEventListener("click", () => {
+          currentPage += 1;
+          render();
+        });
+
+        elements.headers.forEach((header) => {
+          header.dataset.label = header.textContent;
+          header.addEventListener("click", () => {
+            const nextKey = header.dataset.sort;
+            if (sortKey === nextKey) {
+              sortDirection = sortDirection === "asc" ? "desc" : "asc";
+            } else {
+              sortKey = nextKey;
+              sortDirection = "asc";
+            }
+            currentPage = 1;
+            render();
+          });
+        });
+
+        elements.status.textContent = `Arquivo ORA carregado com ${rows.length.toLocaleString("pt-BR")} linhas agregadas por gene e contraste.`;
+        render();
+      } catch (error) {
+        elements.status.textContent = `${error.message}. Abra esta página por um servidor local para carregar o arquivo JSON derivado do XLSX.`;
+      }
+    };
+
+    init();
+  </script>
+</body>
+</html>

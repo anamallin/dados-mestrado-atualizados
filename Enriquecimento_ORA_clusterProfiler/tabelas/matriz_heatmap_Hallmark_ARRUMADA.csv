@@ -1,0 +1,26 @@
+"","ATRT_vs_MB","MB_vs_EPN_like","MB_vs_Glial","ATRT_vs_EPN_like","ATRT_vs_Glial","EPN_like_vs_Glial"
+"Genes encoding cell cycle related targets of E2F transcription factors.",-8,8,8,1.9317410542169,7.96830569535244,0
+"Genes involved in the G2/M checkpoint, as in progression through the cell division cycle.",-8,8,8,0,1.97467262206595,0
+"A subgroup of genes regulated by MYC - version 1 (v1).",-1.35182216728707,5.07184152681495,8,0,0,0
+"A subgroup of genes regulated by MYC - version 2 (v2).",0,8,8,2.25582438137298,7.01056727297071,0
+"Genes encoding components of the complement system, which is part of the innate immune system.",0,0,0,0,0,-5.16505306032317
+"Genes involved in DNA repair.",-1.33036474146118,2.67588384776282,7.88361478877485,0,0,0
+"Genes up-regulated during transplant rejection.",0,0,0,0,0,-3.51194230136476
+"Genes encoding components of peroxisome.",3.41947242245752,0,0,0,0,0
+"Genes encoding components of blood coagulation system; also up-regulated in platelets.",0,0,-1.4041509848686,0,0,-5.16505306032317
+"Genes encoding components of apical junction complex.",0,0,0,0,0,-3.03647307735764
+"Genes involved in development of skeletal muscle (myogenesis).",0,0,-3.13309655685049,0,-2.79203368815426,0
+"Genes up-regulated in response to IFNG [GeneID=3458].",2.60212069916034,0,-1.60576041125877,0,0,-4.40911678340788
+"Genes important for mitotic spindle assembly.",0,0,0,0,-2.79203368815426,0
+"Genes up-regulated during adipocyte differentiation (adipogenesis).",0,0,-2.72931199552427,0,0,0
+"Genes mediating programmed cell death (apoptosis) by activation of caspases.",2.63654742844011,0,0,0,0,0
+"Genes encoding proteins involved in metabolism of fatty acids.",2.24077011092714,-2.89374630417184,-2.59154992271845,0,0,0
+"Genes up-regulated in response to low oxygen levels (hypoxia).",3.41947242245752,0,0,1.47749375469802,0,0
+"Genes defining late response to estrogen.",0,-2.89374630417184,0,0,-1.78791490543722,0
+"Genes defining epithelial-mesenchymal transition, as in wound healing, fibrosis and metastasis.",2.23549921969177,0,0,0,0,0
+"Genes encoding proteins involved in glycolysis and gluconeogenesis.",2.07395928419115,0,0,0,2.13815990859789,0
+"Genes up-regulated during unfolded protein response, a cellular stress response related to the endoplasmic reticulum.",0,2.36900268350036,2.1359230999371,0,1.5136170898852,0
+"Genes defining inflammatory response.",1.97487558881525,0,-1.75256364723747,0,0,-2.01410823927737
+"Genes defining early response to estrogen.",0,0,0,0,-1.78791490543722,0
+"Genes up-regulated in response to alpha interferon proteins.",1.47671944503363,0,0,0,0,-1.48390730309472
+"Genes regulated by NF-kB in response to TNF [GeneID=7124].",1.61326863192508,0,0,0,0,-1.34138804748043
